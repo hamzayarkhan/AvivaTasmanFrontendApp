@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-between", // Aligns logo to the left, icons to the right
         alignItems: "center", // Vertically center everything
         paddingHorizontal: 20,
-        paddingVertical: 20,
+        paddingVertical: 25,
+        backgroundColor: "#ffffff"
     },
     iconsContainer: {
         flexDirection: "row",
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     },
     icon: {
         fontSize: 20,
-        color: "#000000",
+        color: "#17588e",
     },
     logo: {
         // Adjust these values according to your logo's size

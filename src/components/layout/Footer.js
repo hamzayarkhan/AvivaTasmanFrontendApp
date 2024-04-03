@@ -16,26 +16,7 @@ const Footer = () => {
 
     return (
         <View style={styles.footer}>
-            <View style={styles.dropdownContainer}>
-                <Picker
-                    selectedValue={country}
-                    style={styles.picker}
-                    onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}>
-                    {/* Add Picker.Item components for each country option */}
-                    <Picker.Item label="AUD $ | Australia" value="Australia" />
-                    <Picker.Item label="PHP ₱ | Philippines" value="Philippines" />
-                    {/* ... other countries */}
-                </Picker>
-                <Picker
-                    selectedValue={language}
-                    style={styles.picker}
-                    onValueChange={(itemValue, itemIndex) => setLanguage(itemValue)}>
-                    {/* Add Picker.Item components for each language option */}
-                    <Picker.Item label="English" value="English" />
-                    <Picker.Item label="Filipino" value="Filipino" />
-                    {/* ... other languages */}
-                </Picker>
-            </View>
+            
 
 
             <View style={styles.textContainer}>
@@ -59,7 +40,9 @@ const Footer = () => {
 const styles = StyleSheet.create({
     footer: {
         padding: 10,
-        backgroundColor: '#eee', // Change color as per your design
+        backgroundColor: '#ffffff',
+        // Ensure footer sticks to the bottom
+        // The flex styling should be adjusted in the parent Layout if needed
     },
     dropdownContainer: {
         flexDirection: 'row',
@@ -67,14 +50,15 @@ const styles = StyleSheet.create({
         marginRight: 20,
     },
     picker: {
-        height: "20%",
+        height: 50, // Specific height to ensure visibility
         width: "50%",
         backgroundColor: "#fff",
-        marginLeft: 10
+        marginLeft: 10,
     },
     text: {
         fontSize: 12,
         marginVertical: 2,
+        color: "#000000"
     },
     textContainer: {
         flexDirection: "row",
