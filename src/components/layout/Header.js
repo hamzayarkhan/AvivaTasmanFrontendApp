@@ -9,7 +9,7 @@ const Header = () => {
     return (
         <View style={styles.container}>
             {/* Logo on the left */}
-            <TouchableOpacity  onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity  onPress={() => navigation.navigate('HomeScreen')}>
                 <Image
                     source={require("../../../assets/images/logo.png")} // Replace with your logo URL
                     style={styles.logo}
@@ -21,10 +21,10 @@ const Header = () => {
                 <TouchableOpacity style={styles.menuContainer}>
                     <FontAwesome name="search" style={styles.icon} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.menuContainer}>
+                <TouchableOpacity style={styles.menuContainer} >
                     <FontAwesome name="user-circle" style={styles.icon} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.menuContainer}>
+                <TouchableOpacity style={styles.menuContainer} onPress={()=> navigation.navigate('CartScreen')}>
                     <FontAwesome name="shopping-cart" style={styles.icon} />
                 </TouchableOpacity>
             </View>

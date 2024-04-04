@@ -2,10 +2,11 @@ import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
-import Home from './src/screens/Home'
+import HomeScreen from './src/screens/HomeScreen'
 import RefundPolicy from './src/components/policy/RefundPolicy'
 import PrivacyPolicy from './src/components/policy/PrivacyPolicy'
 import ItemDetail from './src/screens/ItemDetail'
+import CartScreen from './src/screens/CartScreen'
 
 
 //routes
@@ -15,8 +16,9 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ItemDetail" component={ItemDetail} options={{ headerShown: false }} />
+        <Stack.Screen name="CartScreen" component={CartScreen} options={{ headerShown: false }} />
 
         {/* Policy Screen */}
         <Stack.Screen name="RefundPolicy" component={RefundPolicy}  options={{ headerShown: false }}   />

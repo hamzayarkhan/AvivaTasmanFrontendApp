@@ -4,6 +4,7 @@ export const productsData = [
     title: 'Deluxe Food Package',
     price: '184.00 AUD',
     image_url: require('../../assets/images/FoodPackage.png'),
+    quantity: 10,
     contents: [
       "Regular Whole Chicken 3 PCS",
       "Pork Liempo Cut 1 KG",
@@ -21,6 +22,7 @@ export const productsData = [
     title: 'Family Food Package',
     price: '160.00 AUD',
     image_url: require('../../assets/images/FoodPackage.png'),
+    quantity: 100,
     contents: [
       "Grilled Chicken 2 PCS",
       "Beef Sirloin Cut 1 KG",
@@ -38,6 +40,7 @@ export const productsData = [
     title: 'Essential Food Package',
     price: '84.00 AUD',
     image_url: require('../../assets/images/FoodPackage.png'),
+    quantity: 0,
     contents: [
       "Fried Fish 3 PCS",
       "Pork Chop Cut 1 KG",
@@ -55,6 +58,7 @@ export const productsData = [
     title: 'Gourmet Food Package',
     price: '200.00 AUD',
     image_url: require('../../assets/images/FoodPackage.png'),
+    quantity: 0,
     contents: [
       "Roast Beef 2 KG",
       "Lamb Shoulder 1 KG",
@@ -67,55 +71,55 @@ export const productsData = [
       "Mango R2E2 3KG"
     ]
   },
-  {
-    id: 5,
-    title: 'Weekly Staples Package',
-    price: '120.00 AUD',
-    image_url: require('../../assets/images/FoodPackage.png'),
-    contents: [
-      "Spaghetti Pasta 3 Packs",
-      "Tomato Sauce 3 Jars",
-      "Parmesan Cheese 1KG",
-      "Ground Beef 2KG",
-      "Basil Leaves 200g",
-      "Mushroom 1KG",
-      "Olive Oil 500ml",
-      "Chicken Eggs Large (12s) 12 Pieces",
-      "Mixed Berries 2KG"
-    ]
-  },
-  {
-    id: 6,
-    title: 'Vegetarian Delight Package',
-    price: '150.00 AUD',
-    image_url: require('../../assets/images/FoodPackage.png'),
-    contents: [
-      "Tofu 2KG",
-      "Tempeh 1KG",
-      "Vegan Cheese 500g",
-      "Assorted Nuts 1KG",
-      "Quinoa 2KG",
-      "Kale 1KG",
-      "Avocado 4 PCS",
-      "Almond Milk 2 Liters",
-      "Oatmeal 2KG"
-    ]
-  },
-  {
-    id: 7,
-    title: 'Quick Meals Package',
-    price: '99.00 AUD',
-    image_url: require('../../assets/images/FoodPackage.png'),
-    contents: [
-      "Frozen Pizza 2",
-      "Chicken Nuggets 1KG",
-      "French Fries 2KG",
-      "Ice Cream 1 Liter",
-      "Canned Soup 4",
-      "Mac & Cheese Box 3",
-      "Green Salad Mix 1KG",
-      "Canned Tuna 4",
-      "Instant Noodles 10 Packs"
-    ]
-  }
+  // {
+  //   id: 5,
+  //   title: 'Weekly Staples Package',
+  //   price: '120.00 AUD',
+  //   image_url: require('../../assets/images/FoodPackage.png'),
+  //   contents: [
+  //     "Spaghetti Pasta 3 Packs",
+  //     "Tomato Sauce 3 Jars",
+  //     "Parmesan Cheese 1KG",
+  //     "Ground Beef 2KG",
+  //     "Basil Leaves 200g",
+  //     "Mushroom 1KG",
+  //     "Olive Oil 500ml",
+  //     "Chicken Eggs Large (12s) 12 Pieces",
+  //     "Mixed Berries 2KG"
+  //   ]
+  // },
+  // {
+  //   id: 6,
+  //   title: 'Vegetarian Delight Package',
+  //   price: '150.00 AUD',
+  //   image_url: require('../../assets/images/FoodPackage.png'),
+  //   contents: [
+  //     "Tofu 2KG",
+  //     "Tempeh 1KG",
+  //     "Vegan Cheese 500g",
+  //     "Assorted Nuts 1KG",
+  //     "Quinoa 2KG",
+  //     "Kale 1KG",
+  //     "Avocado 4 PCS",
+  //     "Almond Milk 2 Liters",
+  //     "Oatmeal 2KG"
+  //   ]
+  // },
+  // {
+  //   id: 7,
+  //   title: 'Quick Meals Package',
+  //   price: '99.00 AUD',
+  //   image_url: require('../../assets/images/FoodPackage.png'),
+  //   contents: [
+  //     "Frozen Pizza 2",
+  //     "Chicken Nuggets 1KG",
+  //     "French Fries 2KG",
+  //     "Ice Cream 1 Liter",
+  //     "Canned Soup 4",
+  //     "Mac & Cheese Box 3",
+  //     "Green Salad Mix 1KG",
+  //     "Canned Tuna 4",
+  //     "Instant Noodles 10 Packs"
+  //   ]
+  // }
 ];

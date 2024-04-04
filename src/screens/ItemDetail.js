@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import { productsData } from '../services/products';
+import CartDrawerModal from '../components/cart/CartDrawerModal';
 
 const ItemDetail = ({ route }) => {
   const [itemDetail, setItemDetail] = useState({})
   const [quantity, setQuantity] = useState(1);
   const [modalVisible, setModalVisible] = useState(false);
+  const [cartModalVisible, setCartModalVisible] = useState(false);
 
 
   const onQuantityChange = (newQuantity) => {
@@ -52,9 +54,15 @@ const ItemDetail = ({ route }) => {
               <Text style={styles.quantityButton}>+</Text>
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity style={styles.addToCartButton}>
-            <Text style={styles.addToCartButtonText}>Add to cart</Text>
+        
+          <TouchableOpacity
+            style={styles.addToCartButton} disabled = {itemDetail?.quantity<=0}
+            // onPress={() => {
+            //   console.log('Add to cart pressed'); // Debugging line
+            //   setCartModalVisible(true);
+            // }}
+          >
+            <Text style={styles.addToCartButtonText}>{itemDetail?.quantity > 0 ? "Add to cart" : "Out Of Stock" }</Text>
           </TouchableOpacity>
 
           <Text style={styles.consistsTitle}>Consists of</Text>
@@ -87,6 +95,16 @@ const ItemDetail = ({ route }) => {
           </TouchableWithoutFeedback>
         </Modal>
       </ScrollView>
+      <CartDrawerModal
+        visible={cartModalVisible}
+        itemDetail={itemDetail}
+        onClose={() => setCartModalVisible(false)}
+        onGoToCart={() => {
+          // Logic to navigate to the cart
+          setCartModalVisible(false);
+          // e.g., navigation.navigate('Cart');
+        }}
+      />
       <Footer />
     </>
 
