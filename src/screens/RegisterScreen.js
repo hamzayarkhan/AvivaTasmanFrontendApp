@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const ItemDetail = () => {
+const RegisterScreen = () => {
   return (
     <View>
-      <Text>ItemDetail</Text>
+      <Text>RegisterScreen</Text>
     </View>
   )
 }
 
-export default ItemDetail
+export default RegisterScreen

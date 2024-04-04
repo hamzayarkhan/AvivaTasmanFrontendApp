@@ -26,7 +26,7 @@ const RefundPolicy = () => {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#eee', // or your preferred background color
+        backgroundColor: '#ffffff', // or your preferred background color
     },
     container: {
         flex: 1,

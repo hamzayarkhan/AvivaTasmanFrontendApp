@@ -1,33 +1,38 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
-import Footer from './Footer'
-import { StatusBar } from 'expo-status-bar'
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import React from 'react';
+import Footer from './Footer';
+import { StatusBar } from 'expo-status-bar';
 
 const Layout = ({ children }) => {
     return (
         <>
-            <StatusBar />
-            <View>{children}</View>
-            <View style = {styles.footer}>
-                <Footer  />
-            </View>
+            <StatusBar style="auto" />
+            <SafeAreaView style={styles.container}>
+                <View style={styles.content}>
+                    {children}
+                </View>
+                <Footer style={styles.footer} />
+            </SafeAreaView>
         </>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1, // Ensures that the SafeAreaView takes up the full screen
+        justifyContent: 'space-between',
+        backgroundColor: "#ffffff",
+        fontFamily: 'Roboto', // This will place the footer at the bottom and content at the top
+    },
+    content: {
+        flex: 1, // This ensures that the content area takes up all available space above the footer
+    },
     footer: {
-        display: "flex",
         width: "100%",
-        flex:1,
-        justifyContent: "flex-end",
-        zIndex: 100,
         borderTopWidth: 1,
-        borderColor: "#eee",
-        position: "absolute",
-        bottom: 0,
-        padding: 10
+        borderColor: "#ffffff",
+        flex: 1,
     }
 })
 
-export default Layout
+export default Layout;

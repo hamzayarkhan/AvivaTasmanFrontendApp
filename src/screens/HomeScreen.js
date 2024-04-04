@@ -5,7 +5,7 @@ import Header from '../components/layout/Header';
 import ItemsList from '../components/item/ItemsList';
 
 
-export default function Home() {
+export default function HomeScreen() {
   return (
 
     <Layout>

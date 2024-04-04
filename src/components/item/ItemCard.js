@@ -1,39 +1,44 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import {useNavigation} from "@react-navigation/native"
 
 const ItemCard = ({ p }) => {
+    const navigation = useNavigation();
+    const handleDetails =(id) => {
+        navigation.navigate("ItemDetail",{id:id})
+    }
     return (
         <View style={styles.cardContainer}>
-            <View style={styles.card}>
-                <Image source={p.image_url} style={styles.image} />
-                <Text style={styles.title}>{p.title}</Text>
-                <Text style={styles.price}>{p.price}</Text>
-            </View>
+            <TouchableOpacity onPress= {()=> handleDetails(p.id)}>
+                <View style={styles.card}>
+                    <Image source={p.image_url} style={styles.image} />
+                    <Text style={styles.title}>{p.title}</Text>
+                    <Text style={styles.price}>{p.price}</Text>
+                </View>
+            </TouchableOpacity>
+           
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     cardContainer: {
-        flex: 1,
-        margin: 5, // Adjust the spacing between cards here
+        flex: 1, // Ensure the card attempts to take up half the row
     },
     card: {
-        borderWidth: 1,
-        borderColor: "#eee",
         backgroundColor: "#fff",
-        padding: 10, // Space between card content and card borders
-        alignItems: 'center', // Center content horizontally
+        padding: 10,
+        alignItems: 'center',
     },
     image: {
         height: 150,
         width: "100%",
-        resizeMode: 'contain', // Adjust based on how you want images to fit
+        resizeMode: 'contain',
     },
     title: {
-        fontSize: 12,
+        fontSize: 16,
         textAlign: "center",
-        marginVertical: 5, // Adds space above and below the title
+        marginVertical: 5,
     },
     price: {
         fontSize: 14,
