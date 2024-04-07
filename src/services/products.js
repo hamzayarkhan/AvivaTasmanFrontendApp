@@ -71,40 +71,40 @@ export const productsData = [
       "Mango R2E2 3KG"
     ]
   },
-  // {
-  //   id: 5,
-  //   title: 'Weekly Staples Package',
-  //   price: '120.00 AUD',
-  //   image_url: require('../../assets/images/FoodPackage.png'),
-  //   contents: [
-  //     "Spaghetti Pasta 3 Packs",
-  //     "Tomato Sauce 3 Jars",
-  //     "Parmesan Cheese 1KG",
-  //     "Ground Beef 2KG",
-  //     "Basil Leaves 200g",
-  //     "Mushroom 1KG",
-  //     "Olive Oil 500ml",
-  //     "Chicken Eggs Large (12s) 12 Pieces",
-  //     "Mixed Berries 2KG"
-  //   ]
-  // },
-  // {
-  //   id: 6,
-  //   title: 'Vegetarian Delight Package',
-  //   price: '150.00 AUD',
-  //   image_url: require('../../assets/images/FoodPackage.png'),
-  //   contents: [
-  //     "Tofu 2KG",
-  //     "Tempeh 1KG",
-  //     "Vegan Cheese 500g",
-  //     "Assorted Nuts 1KG",
-  //     "Quinoa 2KG",
-  //     "Kale 1KG",
-  //     "Avocado 4 PCS",
-  //     "Almond Milk 2 Liters",
-  //     "Oatmeal 2KG"
-  //   ]
-  // },
+  {
+    id: 5,
+    title: 'Weekly Staples Package',
+    price: '120.00 AUD',
+    image_url: require('../../assets/images/FoodPackage.png'),
+    contents: [
+      "Spaghetti Pasta 3 Packs",
+      "Tomato Sauce 3 Jars",
+      "Parmesan Cheese 1KG",
+      "Ground Beef 2KG",
+      "Basil Leaves 200g",
+      "Mushroom 1KG",
+      "Olive Oil 500ml",
+      "Chicken Eggs Large (12s) 12 Pieces",
+      "Mixed Berries 2KG"
+    ]
+  },
+  {
+    id: 6,
+    title: 'Vegetarian Delight Package',
+    price: '150.00 AUD',
+    image_url: require('../../assets/images/FoodPackage.png'),
+    contents: [
+      "Tofu 2KG",
+      "Tempeh 1KG",
+      "Vegan Cheese 500g",
+      "Assorted Nuts 1KG",
+      "Quinoa 2KG",
+      "Kale 1KG",
+      "Avocado 4 PCS",
+      "Almond Milk 2 Liters",
+      "Oatmeal 2KG"
+    ]
+  },
   // {
   //   id: 7,
   //   title: 'Quick Meals Package',
