@@ -8,11 +8,16 @@ import Footer from '../components/layout/Footer';
 import CheckoutWizard from '../components/checkout/CheckoutWizard';
 
 const CheckoutScreen = () => {
-    const [cartItems, setCartItems] = useState([]);
-    const [currentStep, setCurrentStep] = useState('information'); // 'cart', 'information', 'shipping', 'payment'
+  const [cartItems, setCartItems] = useState([]);
+  const [currentStep, setCurrentStep] = useState('information');
+  const [informationData, setInformationData] = useState(null);// 'cart', 'information', 'shipping', 'payment'
 
   // Function to advance to the next step
-  const handleNextStep = () => {
+  const handleNextStep = (data) => {
+    console.log(data)
+    if (currentStep === 'information') {
+      setInformationData(data)
+    }
     setCurrentStep(prevStep => {
       switch (prevStep) {
         case 'cart':
@@ -30,47 +35,43 @@ const CheckoutScreen = () => {
     });
   };
 
-    useEffect(() => {
-        const fetchCartItems = async () => {
-            try {
-                const cartJSON = await AsyncStorage.getItem('cart');
-                const cart = cartJSON ? JSON.parse(cartJSON) : [];
-                setCartItems(cart);
-            } catch (error) {
-                Alert.alert('Error', 'Failed to load cart items.');
-            }
-        };
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const cartJSON = await AsyncStorage.getItem('cart');
+        const cart = cartJSON ? JSON.parse(cartJSON) : [];
+        setCartItems(cart);
+      } catch (error) {
+        Alert.alert('Error', 'Failed to load cart items.');
+      }
+    };
 
-        fetchCartItems();
-    }, []);
+    fetchCartItems();
+  }, []);
 
 
 
-    return (
-        <>
-            <Header/>
-            <ScrollView style={styles.container}>
-                <CheckoutSummary cartItems={cartItems} />
-            <CheckoutWizard currentStep={currentStep} onNext={handleNextStep}/>
+  return (
+    <>
+      <Header />
+      <ScrollView style={styles.container}>
+        <CheckoutSummary cartItems={cartItems} />
+        <CheckoutWizard currentStep={currentStep} onNext={handleNextStep} informationData={informationData} />
 
-            </ScrollView>
-            {/* <Footer/> */}
-        </>
+      </ScrollView>
+      {/* <Footer/> */}
+    </>
 
-    );
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#ffffff'
-    },
-    checkoutButtonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    // Add other styles if necessary
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff'
+  },
+ 
+  // Add other styles if necessary
 });
 
 export default CheckoutScreen;

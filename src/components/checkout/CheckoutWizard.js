@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Step from './Step';
 import InformationForm from './InformationForm';
 
-const CheckoutWizard = ({ currentStep, onNext  }) => {
+const CheckoutWizard = ({ currentStep, onNext, informationData }) => {
     return (
         <>
             <View style={styles.headerContainer}>
@@ -13,7 +13,8 @@ const CheckoutWizard = ({ currentStep, onNext  }) => {
                 <Step title="Payment" currentStep={currentStep} stepName="payment" />
             </View>
             <View>
-                {currentStep === "information" && <InformationForm onNext={onNext} />}
+                {currentStep === "information" && <InformationForm onNext={(data) => onNext(data)} />}
+
             </View>
         </>
 

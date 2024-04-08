@@ -3,6 +3,8 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 
 import CheckBox from 'expo-checkbox';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+
 
 const InformationForm = ({ onNext }) => {
     const [errors, setErrors] = useState({});
@@ -20,34 +22,34 @@ const InformationForm = ({ onNext }) => {
 
 
 
-    const validateField = (name, value) => {
-        if (!value) {
-            setErrors(prevErrors => ({
-                ...prevErrors,
-                [name]: `This field is required`,
-            }));
-            return false;
-        } else {
-            setErrors(prevErrors => ({
-                ...prevErrors,
-                [name]: null,
-            }));
-            return true;
-        }
-    };
+    const validateAndContinue = () => {
+        let newErrors = {};
+        let isValid = true;
 
-    // Function to handle the next step navigation
-    const handleContinue = () => {
-        let allFieldsValid = true;
+        // Simple validation: Check if any of the required fields are empty
+        const requiredFields = { firstName, lastName, address, city, postCode, country };
+        Object.entries(requiredFields).forEach(([key, value]) => {
+            if (!value) {
+                newErrors[key] = "This field is required";
+                isValid = false;
+            }
+        });
 
-        // Check each field and update 'allFieldsValid' if any field is invalid
-        allFieldsValid = validateField('firstName', firstName) && allFieldsValid;
-        allFieldsValid = validateField('lastName', lastName) && allFieldsValid;
-        allFieldsValid = validateField('address', address) && allFieldsValid;
-        // Continue for other fields...
+        setErrors(newErrors);
 
-        if (allFieldsValid) {
-            onNext();
+        if (isValid) {
+            console.log(firstName,lastName,address,apartment,city,state,postCode,country,isSelected)
+            onNext({
+                firstName,
+                lastName,
+                address,
+                apartment,
+                city,
+                state,
+                postCode,
+                country,
+                isSelected,
+            });
         }
     };
 
@@ -87,20 +89,18 @@ const InformationForm = ({ onNext }) => {
                     <View style={styles.row}>
                         <View style={styles.flexInputContainer}>
                             <TextInput
-                                style={[styles.input, errors.firstName ? styles.inputError : null]}
+                                style={[styles.input, errors.firstName ? styles.inputError : {}]}
                                 value={firstName}
                                 onChangeText={text => setFirstName(text)}
-                                onBlur={() => validateField('firstName', firstName)}
-                                placeholder="First name (optional)"
+                                placeholder="First name"
                             />
                             {errors.firstName && <Text style={styles.errorText}>{errors.firstName}</Text>}
                         </View>
                         <View style={styles.flexInputContainer}>
                             <TextInput
-                                style={[styles.input, errors.lastName ? styles.inputError : null]}
+                                style={[styles.input, errors.lastName ? styles.inputError : {}]}
                                 value={lastName}
                                 onChangeText={text => setLastName(text)}
-                                onBlur={() => validateField('lastName', lastName)}
                                 placeholder="Last name"
                             />
                             {errors.lastName && <Text style={styles.errorText}>{errors.lastName}</Text>}
@@ -108,23 +108,22 @@ const InformationForm = ({ onNext }) => {
                     </View>
                     <View style={styles.flexInputContainer}>
                         <TextInput
-                            style={[styles.input, errors.address ? styles.inputError : null]}
+                            style={[styles.input, errors.address ? styles.inputError : {}]}
                             value={address}
                             onChangeText={(text) => setAddress(text)}
-                            onBlur={() => validateField('address', address)}
                             placeholder="Address"
                         />
                         {errors.address && <Text style={styles.errorText}>{errors.address}</Text>}
 
                     </View>
 
-                        <TextInput
-                            style={styles.input}
-                            value={apartment}
-                            onChangeText={(text) => setApartment(text)}
-                            placeholder="Apartment,suite,etc. (optional)"
-                        />
-                    
+                    <TextInput
+                        style={styles.input}
+                        value={apartment}
+                        onChangeText={(text) => setApartment(text)}
+                        placeholder="Apartment,suite,etc. (optional)"
+                    />
+
 
                     <Text style={styles.label}>{country === 'Australia' ? 'State/territory' : 'Region'}</Text>
                     <Picker
@@ -135,27 +134,29 @@ const InformationForm = ({ onNext }) => {
                         <Picker.Item label="Test 2" value="Test 2" />
                     </Picker>
                     <View style={styles.row}>
-                    <View style={styles.flexInputContainer}>
+                        <View style={styles.flexInputContainer}>
 
-                        <TextInput
-                            style={[styles.input, styles.flexInput , errors.city ? styles.inputError : null]}
-                            value={city}
-                            onChangeText={(text) => setCity(text)}
-                            placeholder="City"
+                            <TextInput
+                                style={[styles.input, errors.firstName ? styles.inputError : {}]}
+                                value={city}
+                                onChangeText={(text) => setCity(text)}
+                                placeholder="City"
                             />
-                        {errors.address && <Text style={styles.errorText}>{errors.city}</Text>}
+                            {errors.city && <Text style={styles.errorText}>{errors.city}</Text>}
 
                         </View>
-                    <View style={styles.flexInputContainer}>
-                        
-                        <TextInput
-                            style={[styles.input, styles.flexInput]}
-                            value={postCode}
-                            onChangeText={(text) => setPostCode(text)}
-                            placeholder="Postal code"
+                        <View style={styles.flexInputContainer}>
+
+                            <TextInput
+                                style={[styles.input, errors.firstName ? styles.inputError : {}]}
+                                value={postCode}
+                                onChangeText={(text) => setPostCode(text)}
+                                placeholder="Postal code"
                             />
+                            {errors.postCode && <Text style={styles.errorText}>{errors.postCode}</Text>}
+
                         </View>
-                            
+
 
                     </View>
 
@@ -171,11 +172,11 @@ const InformationForm = ({ onNext }) => {
                 <TouchableOpacity style={[styles.button, styles.buttonOutline]} onPress={handleReturnToCart}>
                     <Text style={styles.buttonOutlineText}>Return to cart</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.buttonFilled]} onPress={handleContinue}>
+                <TouchableOpacity style={[styles.button, styles.buttonFilled]} onPress={validateAndContinue}>
                     <Text style={styles.buttonText}>Continue to shipping</Text>
                 </TouchableOpacity>
             </View>
-          
+
         </View>
     );
 };
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
     },
     flexInputContainer: {
         flex: 1,
-        marginBottom:5
+        marginBottom: 5
 
     },
 
