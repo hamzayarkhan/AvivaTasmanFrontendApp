@@ -1,16 +1,37 @@
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, TextInput, Modal, TouchableWithoutFeedback } from 'react-native';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TouchableWithoutFeedback, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import { productsData } from '../services/products';
 import CartDrawerModal from '../components/cart/CartDrawerModal';
+import { useNavigation } from '@react-navigation/native';
 
 const ItemDetail = ({ route }) => {
-  const [itemDetail, setItemDetail] = useState({})
+  const [itemDetail, setItemDetail] = useState({});
   const [quantity, setQuantity] = useState(1);
   const [modalVisible, setModalVisible] = useState(false);
   const [cartModalVisible, setCartModalVisible] = useState(false);
+  const navigation = useNavigation();
 
+  const openCartDrawer = async () => {
+    try {
+      const existingCartJSON = await AsyncStorage.getItem('cart');
+      const existingCart = existingCartJSON ? JSON.parse(existingCartJSON) : [];
+      const index = existingCart.findIndex(item => item.id === itemDetail.id);
+
+      if (index !== -1) {
+        existingCart[index].quantity += quantity; // Update quantity
+      } else {
+        existingCart.push({ ...itemDetail, quantity }); // Add new item
+      }
+
+      await AsyncStorage.setItem('cart', JSON.stringify(existingCart));
+      setCartModalVisible(true); // Assuming this controls a confirmation modal
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
+  };
 
   const onQuantityChange = (newQuantity) => {
     const num = parseInt(newQuantity, 10);
@@ -22,12 +43,12 @@ const ItemDetail = ({ route }) => {
   };
   //find item details
   useEffect(() => {
+    const { params } = route;
     const getItem = productsData.find((p) => {
       return p.id === params?.id
     })
-    setItemDetail(getItem)
-  }, [])
-  const { params } = route;
+    setItemDetail(getItem);
+  }, [route]);
   return (
     <>
       <Header />
@@ -54,15 +75,12 @@ const ItemDetail = ({ route }) => {
               <Text style={styles.quantityButton}>+</Text>
             </TouchableOpacity>
           </View>
-        
+
           <TouchableOpacity
-            style={styles.addToCartButton} disabled = {itemDetail?.quantity<=0}
-            // onPress={() => {
-            //   console.log('Add to cart pressed'); // Debugging line
-            //   setCartModalVisible(true);
-            // }}
+            style={styles.addToCartButton} disabled={itemDetail?.quantity <= 0}
+            onPress={() => openCartDrawer()}
           >
-            <Text style={styles.addToCartButtonText}>{itemDetail?.quantity > 0 ? "Add to cart" : "Out Of Stock" }</Text>
+            <Text style={styles.addToCartButtonText}>{itemDetail?.quantity > 0 ? "Add to cart" : "Out Of Stock"}</Text>
           </TouchableOpacity>
 
           <Text style={styles.consistsTitle}>Consists of</Text>
@@ -97,14 +115,19 @@ const ItemDetail = ({ route }) => {
       </ScrollView>
       <CartDrawerModal
         visible={cartModalVisible}
-        itemDetail={itemDetail}
         onClose={() => setCartModalVisible(false)}
-        onGoToCart={() => {
+        onViewCart={() => {
           // Logic to navigate to the cart
           setCartModalVisible(false);
-          // e.g., navigation.navigate('Cart');
+          navigation.navigate('CartScreen'); // Adjust this to your cart screen route name
+        }}
+        onCheckout={() => {
+          // Logic to navigate to the checkout screen
+          setCartModalVisible(false);
+          navigation.navigate('CheckoutScreen'); // Adjust this to your checkout screen route name
         }}
       />
+
       <Footer />
     </>
 
@@ -162,13 +185,12 @@ const styles = StyleSheet.create({
   addToCartButton: {
     backgroundColor: '#17588e',
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 15,
     alignItems: 'center',
     marginTop: 10,
     borderRadius: 15
   },
   addToCartButtonText: {
-    fontSize: 18,
     fontWeight: 'bold',
     color: "white"
   },

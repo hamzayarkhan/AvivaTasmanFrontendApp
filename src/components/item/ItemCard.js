@@ -5,7 +5,7 @@ import {useNavigation} from "@react-navigation/native"
 const ItemCard = ({ p }) => {
     const navigation = useNavigation();
     const handleDetails =(id) => {
-        navigation.navigate("ItemDetail",{id:id})
+        navigation.navigate("ItemDetailScreen",{id:id})
     }
     return (
         <View style={styles.cardContainer}>

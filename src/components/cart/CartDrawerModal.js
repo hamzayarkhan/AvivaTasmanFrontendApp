@@ -1,88 +1,80 @@
-// CartDrawerModal.js
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Modal, TouchableWithoutFeedback } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const CartDrawerModal = ({ visible, itemDetail, onClose, onGoToCart }) => {
-  return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
-    >
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.cartDrawer}>
-            <View style={styles.cartDrawerHandle} >
-            <Text>Item added to your cart</Text>
-            <Image
-              source={itemDetail?.image_url}
-              style={styles.cartImage}
-            />
-            <Text style={styles.cartTitle}>{itemDetail?.title}</Text>
-            <TouchableOpacity
-              style={styles.viewCartButton}
-              onPress={onGoToCart}
-            >
-              <Text style={styles.viewCartButtonText}>View cart (5)</Text> {/* Update cart quantity dynamically */}
+const CartDrawerModal = ({ visible, onClose, onViewCart, onCheckout }) => {
+    return (
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={visible}
+            onRequestClose={onClose}
+        >
+            <TouchableOpacity style={styles.centeredView} onPress={onClose}>
+                <View style={styles.modalView}>
+                    <Text style={styles.modalText}>Item added to cart!</Text>
+                    <TouchableOpacity
+                        style={[styles.button, styles.buttonViewCart]}
+                        onPress={onViewCart}
+                    >
+                        <Text style={styles.textStyle}>View Cart</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.button, styles.buttonCheckout]}
+                        onPress={onCheckout}
+                    >
+                        <Text style={styles.textStyle}>Checkout</Text>
+                    </TouchableOpacity>
+                </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={onClose}
-            >
-              <Text>Continue shopping</Text>
-                          </TouchableOpacity>
-                          </View>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </Modal>
-  );
+        </Modal>
+    );
 };
 
 const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  cartDrawer: {
-    backgroundColor: 'white',
-    padding: 20,
-    alignItems: 'center',
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-  },
-  cartDrawerHandle: {
-    width: 40,
-    height: 4,
-    backgroundColor: '#ccc',
-    borderRadius: 2,
-    marginBottom: 10,
-  },
-  cartImage: {
-    width: 100,
-    height: 100,
-    resizeMode: 'contain',
-    marginBottom: 10,
-  },
-  cartTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  viewCartButton: {
-    backgroundColor: '#17588e',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 10,
-    width: '100%',
-  },
-  viewCartButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: "white",
-  },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: 'rgba(0, 0, 0, 0.4)', // Semi-transparent background
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        marginTop: 10,
+        width: 120,
+    },
+    buttonViewCart: {
+        backgroundColor: "#17588e",
+    },
+    buttonCheckout: {
+        backgroundColor: "#3AA040",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontSize: 16,
+    }
 });
 
 export default CartDrawerModal;

@@ -5,8 +5,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import HomeScreen from './src/screens/HomeScreen'
 import RefundPolicy from './src/components/policy/RefundPolicy'
 import PrivacyPolicy from './src/components/policy/PrivacyPolicy'
-import ItemDetail from './src/screens/ItemDetail'
+import ItemDetailScreen from './src/screens/ItemDetailScreen'
 import CartScreen from './src/screens/CartScreen'
+import CheckoutScreen from './src/screens/CheckoutScreen'
 
 
 //routes
@@ -17,8 +18,10 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ItemDetail" component={ItemDetail} options={{ headerShown: false }} />
+        <Stack.Screen name="ItemDetailScreen" component={ItemDetailScreen} options={{ headerShown: false }} />
         <Stack.Screen name="CartScreen" component={CartScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} options={{ headerShown: false }} />
+
 
         {/* Policy Screen */}
         <Stack.Screen name="RefundPolicy" component={RefundPolicy}  options={{ headerShown: false }}   />

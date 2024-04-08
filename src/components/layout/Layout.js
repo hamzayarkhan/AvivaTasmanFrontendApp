@@ -21,8 +21,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1, // Ensures that the SafeAreaView takes up the full screen
         justifyContent: 'space-between',
-        backgroundColor: "#ffffff",
-        fontFamily: 'Roboto', // This will place the footer at the bottom and content at the top
+        backgroundColor: "#ffffff", // This will place the footer at the bottom and content at the top
     },
     content: {
         flex: 1, // This ensures that the content area takes up all available space above the footer
