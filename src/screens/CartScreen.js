@@ -9,7 +9,6 @@ import ItemDetail from './ItemDetailScreen';
 
 const CartScreen = () => {
     const navigation = useNavigation();
-
     const [cartItems, setCartItems] = useState([]);
     const isCartEmpty = cartItems?.length === 0;
 
@@ -114,7 +113,7 @@ const CartScreen = () => {
                     </View>
             
                     <Text style={styles.taxesShipping}>Taxes, Discounts and shipping calculated at checkout</Text>
-                    <TouchableOpacity style={styles.checkoutButton}>
+                    <TouchableOpacity style={styles.checkoutButton} onPress={() => navigation.navigate('CheckoutScreen')}>
                         <Text style={styles.checkoutButtonText}>Check out</Text>
                     </TouchableOpacity>
                 </View>
@@ -216,20 +215,18 @@ const styles = StyleSheet.create({
     checkoutButton: {
         backgroundColor: '#17588e',
         padding: 15,
-        borderRadius: 20,
+        borderRadius: 15,
         alignItems: 'center',
-        marginTop: 10,
+        
     },
     checkoutButtonText: {
-        fontSize: 18,
+
         fontWeight: 'bold',
         color: 'white',
     },
-    continueShoppingButton: {
-        padding: 10,
-    },
+ 
     continueShoppingText: {
-        fontSize: 16,
+    
         color: '#17588e',
         textAlign: 'center',
     },

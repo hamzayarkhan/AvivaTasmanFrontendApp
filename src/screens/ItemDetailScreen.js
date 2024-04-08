@@ -185,13 +185,12 @@ const styles = StyleSheet.create({
   addToCartButton: {
     backgroundColor: '#17588e',
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 15,
     alignItems: 'center',
     marginTop: 10,
     borderRadius: 15
   },
   addToCartButtonText: {
-    fontSize: 18,
     fontWeight: 'bold',
     color: "white"
   },
