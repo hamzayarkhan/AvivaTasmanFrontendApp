@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+
+
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState('');
@@ -12,6 +16,7 @@ function RegisterForm() {
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [errors, setErrors] = useState({});
+  const navigation=useNavigation()
 
   const handleChange = (name, value) => {
     switch (name) {
@@ -224,7 +229,7 @@ function RegisterForm() {
           Already have an account?{' '}
           <Text
             style={styles.loginLink}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() => navigation.navigate('LoginScreen')}>
             Log In
           </Text>
         </Text>
