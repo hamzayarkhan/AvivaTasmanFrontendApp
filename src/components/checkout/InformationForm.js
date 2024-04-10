@@ -6,16 +6,16 @@ import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 
 
-const InformationForm = ({ onNext }) => {
+const InformationForm = ({ onNext, informationData }) => {
     const [errors, setErrors] = useState({});
     const [isSelected, setSelection] = useState(false);
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
-    const [address, setAddress] = useState();
-    const [apartment, setApartment] = useState();
-    const [city, setCity] = useState();
+    const [firstName, setFirstName] = useState(informationData?.addressDetails?.firstName || '');
+    const [lastName, setLastName] = useState(informationData?.addressDetails?.lastName || '');
+    const [address, setAddress] = useState(informationData?.addressDetails?.address || '');
+    const [apartment, setApartment] = useState(informationData?.addressDetails?.apartment || '');
+    const [city, setCity] = useState(informationData?.addressDetails?.city || '');
     const [state, setState] = useState();
-    const [postCode, setPostCode] = useState();
+    const [postCode, setPostCode] = useState(informationData?.addressDetails?.postCode || '');
     const [country, setCountry] = useState('Australia');
     const contact = 'Hamza Yar Khan (hamzakhanofficial@yahoo.com)';
     const navigation = useNavigation();
@@ -38,17 +38,19 @@ const InformationForm = ({ onNext }) => {
         setErrors(newErrors);
 
         if (isValid) {
-            console.log(firstName,lastName,address,apartment,city,state,postCode,country,isSelected)
             onNext({
-                firstName,
-                lastName,
-                address,
-                apartment,
-                city,
-                state,
-                postCode,
-                country,
+                contact,
                 isSelected,
+                addressDetails: {
+                    firstName,
+                    lastName,
+                    address,
+                    apartment,
+                    city,
+                    state,
+                    postCode,
+                    country,
+                },
             });
         }
     };

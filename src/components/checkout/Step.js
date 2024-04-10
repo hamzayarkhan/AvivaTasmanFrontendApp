@@ -6,22 +6,21 @@ const Step = ({ title, currentStep, stepName }) => {
     const isSelected = currentStep === stepName;
     const navigation = useNavigation(); // Hook to get the navigation object
 
-    const handleStepPress = () => {
-        if (stepName === 'cart') {
-            navigation.navigate('CartScreen'); // Replace 'CartScreen' with your actual cart screen route name
-        }
-        // Add more conditions for other steps if necessary
-    };
+    // const handleStepPress = () => {
+    //     if (stepName === 'cart') {
+    //         navigation.navigate('CartScreen'); // Replace 'CartScreen' with your actual cart screen route name
+    //     }
+    //     // Add more conditions for other steps if necessary
+    // };
 
     return (
-      <TouchableOpacity
-        onPress={handleStepPress}
+      <View
         style={[styles.stepContainer, isSelected && styles.selectedStepContainer]}>
         <Text style={[styles.stepText, isSelected && styles.selectedStepText]}>
           {title}
         </Text>
         {title !== "Payment" && <Text style={styles.arrowText}> {'>'} </Text>}
-      </TouchableOpacity>
+      </View>
     );
 };
 
