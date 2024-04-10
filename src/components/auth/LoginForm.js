@@ -24,13 +24,14 @@ function LoginForm() {
     const handleLogin = () => {
         console.log('Login');
     };
+
     const handlePhoneNumberChange = (text) => {
         // Filter out non-numeric characters
         const formattedPhoneNumber = text.replace(/[^0-9]/g, '');
         // Update the state with the formatted phone number
         setPhoneNumber(formattedPhoneNumber);
     };
-    
+
     return (
         <View>
             <Text style={styles.title}>Login</Text>
@@ -43,22 +44,21 @@ function LoginForm() {
                 <TouchableOpacity
                     style={[styles.toggleOption, loginMethod === 'email' && styles.activeToggle]}
                     onPress={() => setLoginMethod('email')}>
-                    <Text>Email</Text>
+                    <Text style={[styles.toggleText, loginMethod === 'email' && styles.activeToggleText]}>Email</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={[styles.toggleOption, loginMethod === 'Mobile' && styles.activeToggle]}
-                    
-                    onPress={() => setLoginMethod('Mobile')}>
-                    <Text>Mobile</Text>
+                    style={[styles.toggleOption, loginMethod === 'phone' && styles.activeToggle]}
+                    onPress={() => setLoginMethod('phone')}>
+                    <Text style={[styles.toggleText, loginMethod === 'phone' && styles.activeToggleText]}>Phone</Text>
                 </TouchableOpacity>
             </View>
             {/* Your login form UI */}
             <View style={styles.flexInputContainer}>
                 <TextInput
-                     style={[styles.input, loginMethod === 'phone' && styles.phoneInput]}
+                    style={[styles.input, loginMethod === 'phone' && styles.phoneInput]}
                     value={loginMethod === 'email' ? email : phoneNumber}
                     onChangeText={text => loginMethod === 'email' ? setEmail(text) : handlePhoneNumberChange(text)}
-                 placeholder={loginMethod === 'email' ? 'Email' : 'Mobile'}
+                    placeholder={loginMethod === 'email' ? 'Email' : 'Phone Number'}
                     keyboardType={loginMethod === 'phone' ? 'numeric' : 'default'}
                 />
                 {errors[loginMethod] && <Text style={styles.errorText}>{errors[loginMethod]}</Text>}
@@ -124,12 +124,15 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 20,
         marginRight: 10,
-        
     },
     activeToggle: {
         backgroundColor: '#17588e',
-
-        
+    },
+    toggleText: {
+        color: 'black',
+    },
+    activeToggleText: {
+        color: 'white',
     },
     flexInputContainer: {
         marginBottom: 5,
@@ -142,6 +145,10 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginRight: 5,
     },
+    phoneInput: {
+        borderWidth: 2,
+        borderColor: '#17588e',
+    },
     errorText: {
         fontSize: 12,
         color: 'red',
@@ -150,13 +157,12 @@ const styles = StyleSheet.create({
     button: {
         padding: 10,
         backgroundColor: '#17588e',
-        marginTop: 5,
-        borderRadius: 15,
+        marginTop: 10,
+        borderRadius: 20,
     },
     buttonText: {
         color: 'white',
         textAlign: 'center',
-        fontWeight:'bold',
     },
     registerContainer: {
         marginTop: 10,
@@ -174,7 +180,7 @@ const styles = StyleSheet.create({
     },
     checkbox: {
         alignSelf: 'center',
-        color: 'blue',
+        color: '#17588e',
     },
     checkboxText: {
         color: 'black',
