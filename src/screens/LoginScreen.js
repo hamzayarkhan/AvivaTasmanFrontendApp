@@ -6,19 +6,45 @@ const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
     const [loginMethod, setLoginMethod] = useState('email');
-    const [validationMessage, setValidationMessage] = useState('');
     const [errors, setErrors] = useState({}); // Define errors state
 
-    const handleRememberMe = () => {
-        setRememberMe(!rememberMe);
+    const handleToggle = (method) => {
+        setLoginMethod(method);
     };
 
-    const handleLogin = () => {
-        console.log('Login');
-    };
+    const validateAndLogin = () => {
+        let newErrors = {};
+        let isValid = true;
+        let requiredFields = {}
+        // Simple validation: Check if any of the required fields are empty
+        if(loginMethod === 'email'){
+            requiredFields= {email, password}
+        }
+        else{
+            requiredFields ={phoneNumber,password}
+        }        
+        console.log(requiredFields)
 
+        Object.entries(requiredFields).forEach(([key, value]) => {
+            if (!value) {
+                newErrors[key] = "This field is required";
+                isValid = false;
+            }
+        });
+
+        setErrors(newErrors);
+
+        if (isValid) {
+            data = {
+                email : email,
+                password :password,
+                phoneNumber: phoneNumber
+            }
+            console.log(data)
+            
+        }
+    };
     const handleChange = (name, value) => {
         switch (name) {
             case 'Password':
@@ -45,13 +71,6 @@ const LoginScreen = () => {
 
     };
 
-    const handlePhoneNumberChange = (text) => {
-        const formattedPhoneNumber = text.replace(/[^0-9]/g, '');
-        setPhoneNumber(formattedPhoneNumber);
-    };
-    const handleForgotPassword = () => {
-        // Handle forgot password logic here
-    };
 
     return (
         <View style={styles.container}>
@@ -63,16 +82,13 @@ const LoginScreen = () => {
             </View>
             <LoginForm
                 email={email}
-                onChange= {handleChange}
                 phoneNumber={phoneNumber}
                 password={password}
-                rememberMe={rememberMe}
+                onChange= {handleChange}
+                onToggle={handleToggle}
                 loginMethod={loginMethod}
-                handleLogin={handleLogin}
-                handleRememberMe={handleRememberMe} 
-                validationMessage={validationMessage}
-                errors={errors} // Pass errors state as prop
-                handleForgotPassword={handleForgotPassword}
+                onLogin={validateAndLogin}
+                errors={errors} // Pass errors state as prop       
                 />
         </View>
     );

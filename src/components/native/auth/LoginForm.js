@@ -1,72 +1,92 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import CheckBox from 'expo-checkbox';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 function LoginForm({
     email,
-    onChange,
     phoneNumber,
     password,
+    onChange,
+    onToggle,
     loginMethod,
-    handleLogin,
-    validationMessage,
+    onLogin,
     errors,
 
 }) {
+    const navigation = useNavigation();
+    // Function to handle toggling between login methods
 
-    const navigation = useNavigation()
     return (
         <View>
             <Text style={styles.title}>Login</Text>
-           
+
             {/* Toggle switch for selecting login method */}
             <View style={styles.toggleContainer}>
                 <TouchableOpacity
                     style={[styles.toggleOption, loginMethod === 'email' && styles.activeToggle]}
-                    onPress={() => setLoginMethod('email')}>
+                    onPress={() => onToggle('email')}>
                     <Text style={[styles.toggleText, loginMethod === 'email' && styles.activeToggleText]}>Email</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.toggleOption, loginMethod === 'phone' && styles.activeToggle]}
-                    onPress={() => setLoginMethod('phone')}>
+                    onPress={() => onToggle('phone')}>
                     <Text style={[styles.toggleText, loginMethod === 'phone' && styles.activeToggleText]}>Mobile</Text>
                 </TouchableOpacity>
             </View>
             {/* Your login form UI */}
             <View style={styles.flexInputContainer}>
-                <TextInput
-                    style={[styles.input, loginMethod === 'phone' && styles.phoneInput]}
-                    value={loginMethod === 'email' ? email : phoneNumber}
-                    onChangeText={text => loginMethod === 'email' ? onChange('Email',text) : onChange('Phone',text)}
-                    placeholder={loginMethod === 'email' ? 'Email' : 'Phone Number'}
-                    keyboardType={loginMethod === 'phone' ? 'numeric' : 'default'}
-                />
-                {errors[loginMethod] && <Text style={styles.errorText}>{errors[loginMethod]}</Text>}
+                {
+                    loginMethod === 'email' ?
+                        (
+                            <>
+                                <TextInput
+                                    style={[styles.input, errors.email ? styles.inputError : {}]}
+                                    placeholder="Email"
+                                    value={email}
+                                    onChangeText={(text) => onChange('Email', text)}
+
+
+                                />
+                                {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+                            </>
+
+                        ) :
+                        (<>
+                            <TextInput
+                                style={[styles.input, errors.phoneNumber ? styles.inputError : {}]}
+                                placeholder="Mobile Number"
+                                value={phoneNumber}
+                                onChangeText={(text) => onChange('Phone', text)}
+
+
+                            />
+                            {errors.phoneNumber && <Text style={styles.errorText}>{errors.phoneNumber}</Text>}
+                        </>)
+                }
+
+
+
             </View>
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                value={password}
-                onChangeText={(text) => onChange('Password',text)}
-                secureTextEntry={true}
-            />
-            <View style={styles.checkboxContainer}>
-                {/* <CheckBox
-                    value={rememberMe}
-                    onValueChange={handleRememberMe}
-                    style={styles.checkbox}
-                    color={'#17588e'}
+            <View style={styles.flexInputContainer}>
+                <TextInput
+                    style={[styles.input, errors.password ? styles.inputError : {}]}
+                    placeholder="Password"
+                    value={password}
+                    onChangeText={(text) => onChange('Password', text)}
+                    secureTextEntry={true}
+
                 />
-                <Text style={styles.checkboxText}>Remember me</Text> */}
-                <TouchableOpacity  style={styles.forgotPasswordContainer}>
+                {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+            </View>
+
+            <View style={styles.checkboxContainer}>
+                <TouchableOpacity style={styles.forgotPasswordContainer}>
                     <Text style={styles.forgotPassword}>Forgot password?</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.buttonContainer}>
-                {/* Wrap the button in a view to set its width */}
                 <View style={{ width: 350 }}>
-                    <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                    <TouchableOpacity style={styles.button} onPress={onLogin}>
                         <Text style={styles.buttonText}>Login</Text>
                     </TouchableOpacity>
                 </View>
@@ -87,11 +107,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 5,
-    },
-    validationMessage: {
-        color: 'red',
-        textAlign: 'center',
-        marginBottom: 10,
     },
     toggleContainer: {
         flexDirection: 'row',
@@ -124,11 +139,14 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 15,
         marginBottom: 5,
-        marginRight: 5,
+        marginRight: 5
     },
-    phoneInput: {
-        borderWidth: 2,
-        borderColor: '#17588e',
+    inputError: {
+        borderColor: 'red',
+    },
+    flexInput: {
+        flex: 1,
+        marginHorizontal: 0,
     },
     errorText: {
         fontSize: 12,
@@ -158,13 +176,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 20,
-    },
-    checkbox: {
-        alignSelf: 'center',
-        color: '#17588e',
-    },
-    checkboxText: {
-        color: 'black',
     },
     forgotPassword: {
         color: '#17588e',
