@@ -2,8 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Step from './Step';
 import InformationForm from './InformationForm';
+import Shipping from './Shipping';
+import Payment from './Payment';
 
-const CheckoutWizard = ({ currentStep, onNext, informationData }) => {
+const CheckoutWizard = ({ currentStep, onNext, onPrevious, onShippingSelection, selectedShippingOption,selectedShippingPrice, informationData }) => {
+  
     return (
         <>
             <View style={styles.headerContainer}>
@@ -13,8 +16,28 @@ const CheckoutWizard = ({ currentStep, onNext, informationData }) => {
                 <Step title="Payment" currentStep={currentStep} stepName="payment" />
             </View>
             <View>
-                {currentStep === "information" && <InformationForm onNext={(data) => onNext(data)} />}
+                {currentStep === "information" && <InformationForm onNext={onNext} informationData={informationData} />}
+                {currentStep === "shipping" && (
+                    <Shipping
+                        onNext={() => onNext('payment')}
+                        onPrevious={onPrevious}
+                        onShippingSelection={onShippingSelection}
+                        selectedShippingOption={selectedShippingOption}
+                        informationData={informationData}
+                    />
+                )}
+                {currentStep === 'payment' && (
 
+                    <Payment
+                        onNext={() => onNext('complete')}
+                        onPrevious={onPrevious}
+                        informationData={informationData}
+                        selectedShippingOption={selectedShippingOption}
+                        selectedShippingPrice = {selectedShippingPrice}                   
+                    />
+                )
+                
+                }
             </View>
         </>
 

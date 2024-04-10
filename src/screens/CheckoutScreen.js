@@ -10,13 +10,32 @@ import CheckoutWizard from '../components/checkout/CheckoutWizard';
 const CheckoutScreen = () => {
   const [cartItems, setCartItems] = useState([]);
   const [currentStep, setCurrentStep] = useState('information');
-  const [informationData, setInformationData] = useState(null);// 'cart', 'information', 'shipping', 'payment'
+  const [informationData, setInformationData] = useState(null);
+  const [selectedShippingPrice, setSelectedShippingPrice] = useState(0);
+  const [selectedShippingOption, setSelectedShippingOption] = useState('Standard');
+
+  const shippingOptions = [
+    { label: 'Standard', value: 'Standard', price: 0.00 },
+    { label: 'Express', value: 'Express', price: 15.00 },
+  ];
+  const handleShippingSelection = (optionValue) => {
+    const selectedOption = shippingOptions.find(option => option.value === optionValue);
+    if (selectedOption) {
+      setSelectedShippingPrice(selectedOption.price); // Update the state with the new price
+      setSelectedShippingOption(selectedOption.value); // Save the selected option's value
+    }
+  };
+
+
 
   // Function to advance to the next step
   const handleNextStep = (data) => {
     console.log(data)
     if (currentStep === 'information') {
       setInformationData(data)
+    }
+    if (currentStep === 'shipping' && data && data.selectedShippingPrice) {
+      setSelectedShippingPrice(data.selectedShippingPrice);
     }
     setCurrentStep(prevStep => {
       switch (prevStep) {
@@ -31,6 +50,20 @@ const CheckoutScreen = () => {
           return 'complete'; // or navigate to a different screen
         default:
           return 'cart'; // Loop back to the start or handle as needed
+      }
+    });
+  };
+
+  const handlePreviousStep = () => {
+    setCurrentStep((prevStep) => {
+      switch (prevStep) {
+        case 'shipping':
+          return 'information';
+        case 'payment':
+          return 'shipping';
+        // Add cases for other steps if necessary
+        default:
+          return 'cart'; // or any other default step you prefer
       }
     });
   };
@@ -55,8 +88,19 @@ const CheckoutScreen = () => {
     <>
       <Header />
       <ScrollView style={styles.container}>
-        <CheckoutSummary cartItems={cartItems} />
-        <CheckoutWizard currentStep={currentStep} onNext={handleNextStep} informationData={informationData} />
+        <CheckoutSummary
+          cartItems={cartItems}
+          selectedShippingPrice={selectedShippingPrice}
+        />
+        <CheckoutWizard
+          currentStep={currentStep}
+          onNext={handleNextStep}
+          onPrevious={handlePreviousStep}
+          onShippingSelection={handleShippingSelection}
+          selectedShippingOption={selectedShippingOption}
+          selectedShippingPrice={selectedShippingPrice}// Pass the selected option
+          informationData={informationData}
+        />
 
       </ScrollView>
       {/* <Footer/> */}
@@ -70,7 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff'
   },
- 
+
   // Add other styles if necessary
 });
 
