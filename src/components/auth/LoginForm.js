@@ -5,71 +5,69 @@ import { useNavigation } from '@react-navigation/native';
 
 function LoginForm() {
     const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [validationMessage, setValidationMessage] = useState(false);
     const [errors, setErrors] = useState({});
-    const navigation = useNavigation()
-
-    // // const handleChange = (name, value) => {
-    // //     // Handle changes in state based on input name
-    // //     switch (name) {
-    // //         case 'username':
-    // //             setEn(value);
-    // //             break;
-    // //         case 'password':
-    // //             setPassword(value);
-    // //             break;
-    // //         // Handle other input fields similarly
-    // //         default:
-    // //             break;
-    // //     }
-    // // };
+    const [loginMethod, setLoginMethod] = useState('email'); // Added state for login method
+    const navigation = useNavigation();
 
     const handleRememberMe = () => {
         setRememberMe(!rememberMe);
     };
 
     const handleForgotPassword = () => {
-        // Add functionality for Forgot password
         console.log('Forgot password');
     };
 
     const handleLogin = () => {
-        // Add functionality for Login
         console.log('Login');
     };
-
+    const handlePhoneNumberChange = (text) => {
+        // Filter out non-numeric characters
+        const formattedPhoneNumber = text.replace(/[^0-9]/g, '');
+        // Update the state with the formatted phone number
+        setPhoneNumber(formattedPhoneNumber);
+    };
+    
     return (
         <View>
-       
             <Text style={styles.title}>Login</Text>
             {/* Validation Message */}
             {validationMessage !== '' && (
                 <Text style={styles.validationMessage}>{validationMessage}</Text>
             )}
-            {/* Your login form UI */}
-            
-            <View style={styles.flexInputContainer}>
-                            <TextInput
-                                style={[styles.input, errors.email ? styles.inputError : {}]}
-                                value={email}
-                                onChangeText={text => setEmail(text)}
-                                placeholder="First name"
-                            />
-                            {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+            {/* Toggle switch for selecting login method */}
+            <View style={styles.toggleContainer}>
+                <TouchableOpacity
+                    style={[styles.toggleOption, loginMethod === 'email' && styles.activeToggle]}
+                    onPress={() => setLoginMethod('email')}>
+                    <Text>Email</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.toggleOption, loginMethod === 'Mobile' && styles.activeToggle]}
+                    
+                    onPress={() => setLoginMethod('Mobile')}>
+                    <Text>Mobile</Text>
+                </TouchableOpacity>
             </View>
-            {/* <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={username}
-                onChangeText={(text) => handleChange('username', text)}
-            /> */}
+            {/* Your login form UI */}
+            <View style={styles.flexInputContainer}>
+                <TextInput
+                     style={[styles.input, loginMethod === 'phone' && styles.phoneInput]}
+                    value={loginMethod === 'email' ? email : phoneNumber}
+                    onChangeText={text => loginMethod === 'email' ? setEmail(text) : handlePhoneNumberChange(text)}
+                 placeholder={loginMethod === 'email' ? 'Email' : 'Mobile'}
+                    keyboardType={loginMethod === 'phone' ? 'numeric' : 'default'}
+                />
+                {errors[loginMethod] && <Text style={styles.errorText}>{errors[loginMethod]}</Text>}
+            </View>
             <TextInput
                 style={styles.input}
                 placeholder="Password"
                 value={password}
-                onChangeText={(text) => handleChange('password', text)}
+                onChangeText={(text) => setPassword(text)}
                 secureTextEntry={true}
             />
             <View style={styles.checkboxContainer}>
@@ -77,39 +75,32 @@ function LoginForm() {
                     value={rememberMe}
                     onValueChange={handleRememberMe}
                     style={styles.checkbox}
-                    color={'#17588e'} // Set the color when the checkbox is selected
+                    color={'#17588e'}
                 />
                 <Text style={styles.checkboxText}>Remember me</Text>
-
-                <TouchableOpacity onPress={handleForgotPassword}>
+                <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
                     <Text style={styles.forgotPassword}>Forgot password?</Text>
                 </TouchableOpacity>
-
-
-
             </View>
-
-            {/* Wrap the button in a view to set its width */}
-            <View style={{ width: 200 }}>
-                <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.registerContainer}>
-                <Text>Don't have an account?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-                    <Text style={styles.registerText}>Register</Text>
-                </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+                {/* Wrap the button in a view to set its width */}
+                <View style={{ width: 350 }}>
+                    <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                        <Text style={styles.buttonText}>Login</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.registerContainer}>
+                    <Text>Don't have an account?</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+                        <Text style={styles.registerText}>Register</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-    },
     title: {
         textAlign: 'center',
         fontSize: 20,
@@ -121,9 +112,27 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 10,
     },
-    flexInputContainer: {
-        marginBottom: 5
+    toggleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 10,
+    },
+    toggleOption: {
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 20,
+        marginRight: 10,
+        
+    },
+    activeToggle: {
+        backgroundColor: '#17588e',
 
+        
+    },
+    flexInputContainer: {
+        marginBottom: 5,
     },
     input: {
         borderWidth: 1,
@@ -131,27 +140,23 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 15,
         marginBottom: 5,
-        marginRight: 5
-    },
-    flexInput: {
-        flex: 1,
-        marginHorizontal: 0,
+        marginRight: 5,
     },
     errorText: {
         fontSize: 12,
         color: 'red',
         marginTop: 5,
     },
-
-
     button: {
         padding: 10,
-        backgroundColor: 'blue',
-        marginTop: 10,
-        borderRadius: 20,
+        backgroundColor: '#17588e',
+        marginTop: 5,
+        borderRadius: 15,
     },
     buttonText: {
         color: 'white',
+        textAlign: 'center',
+        fontWeight:'bold',
     },
     registerContainer: {
         marginTop: 10,
@@ -159,34 +164,32 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     registerText: {
-        color: 'blue',
+        color: '#17588e',
         marginLeft: 5,
     },
-    logo: {
-        width: 130,
-        height: 130,
-        marginBottom: 20, resizeMode: 'contain',
-
-    },
-
     checkboxContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 20,
     },
-
     checkbox: {
         alignSelf: 'center',
-        color: 'blue'
-    },
-    checkboxLabel: {
-        marginLeft: 8,
+        color: 'blue',
     },
     checkboxText: {
         color: 'black',
     },
     forgotPassword: {
-        color: 'blue',
+        color: '#17588e',
+    },
+    forgotPasswordContainer: {
+        flex: 1,
+        alignItems: 'flex-end',
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 20,
     },
 });
 
