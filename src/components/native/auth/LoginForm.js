@@ -3,42 +3,23 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import CheckBox from 'expo-checkbox';
 import { useNavigation } from '@react-navigation/native';
 
-function LoginForm() {
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
-    const [validationMessage, setValidationMessage] = useState(false);
-    const [errors, setErrors] = useState({});
-    const [loginMethod, setLoginMethod] = useState('email'); // Added state for login method
-    const navigation = useNavigation();
+function LoginForm({
+    email,
+    onChange,
+    phoneNumber,
+    password,
+    loginMethod,
+    handleLogin,
+    validationMessage,
+    errors,
 
-    const handleRememberMe = () => {
-        setRememberMe(!rememberMe);
-    };
+}) {
 
-    const handleForgotPassword = () => {
-        console.log('Forgot password');
-    };
-
-    const handleLogin = () => {
-        console.log('Login');
-    };
-
-    const handlePhoneNumberChange = (text) => {
-        // Filter out non-numeric characters
-        const formattedPhoneNumber = text.replace(/[^0-9]/g, '');
-        // Update the state with the formatted phone number
-        setPhoneNumber(formattedPhoneNumber);
-    };
-
+    const navigation = useNavigation()
     return (
         <View>
             <Text style={styles.title}>Login</Text>
-            {/* Validation Message */}
-            {validationMessage !== '' && (
-                <Text style={styles.validationMessage}>{validationMessage}</Text>
-            )}
+           
             {/* Toggle switch for selecting login method */}
             <View style={styles.toggleContainer}>
                 <TouchableOpacity
@@ -49,7 +30,7 @@ function LoginForm() {
                 <TouchableOpacity
                     style={[styles.toggleOption, loginMethod === 'phone' && styles.activeToggle]}
                     onPress={() => setLoginMethod('phone')}>
-                    <Text style={[styles.toggleText, loginMethod === 'phone' && styles.activeToggleText]}>Phone</Text>
+                    <Text style={[styles.toggleText, loginMethod === 'phone' && styles.activeToggleText]}>Mobile</Text>
                 </TouchableOpacity>
             </View>
             {/* Your login form UI */}
@@ -57,7 +38,7 @@ function LoginForm() {
                 <TextInput
                     style={[styles.input, loginMethod === 'phone' && styles.phoneInput]}
                     value={loginMethod === 'email' ? email : phoneNumber}
-                    onChangeText={text => loginMethod === 'email' ? setEmail(text) : handlePhoneNumberChange(text)}
+                    onChangeText={text => loginMethod === 'email' ? onChange('Email',text) : onChange('Phone',text)}
                     placeholder={loginMethod === 'email' ? 'Email' : 'Phone Number'}
                     keyboardType={loginMethod === 'phone' ? 'numeric' : 'default'}
                 />
@@ -67,18 +48,18 @@ function LoginForm() {
                 style={styles.input}
                 placeholder="Password"
                 value={password}
-                onChangeText={(text) => setPassword(text)}
+                onChangeText={(text) => onChange('Password',text)}
                 secureTextEntry={true}
             />
             <View style={styles.checkboxContainer}>
-                <CheckBox
+                {/* <CheckBox
                     value={rememberMe}
                     onValueChange={handleRememberMe}
                     style={styles.checkbox}
                     color={'#17588e'}
                 />
-                <Text style={styles.checkboxText}>Remember me</Text>
-                <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
+                <Text style={styles.checkboxText}>Remember me</Text> */}
+                <TouchableOpacity  style={styles.forgotPasswordContainer}>
                     <Text style={styles.forgotPassword}>Forgot password?</Text>
                 </TouchableOpacity>
             </View>
