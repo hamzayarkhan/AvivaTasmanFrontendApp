@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-const CheckoutSummary = ({ cartItems }) => {
+const CheckoutSummary = ({ cartItems, selectedShippingPrice }) => {
+
     const calculateTotal = () => {
-        return cartItems.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0).toFixed(2);
+        const itemsTotal = cartItems.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0);
+        return (itemsTotal + selectedShippingPrice).toFixed(2);
     };
 
-    return ( 
+    return (
         <View style={styles.summaryContainer}>
             <Text style={styles.summaryText}>Checkout Summary</Text>
             {cartItems.map((item, index) => (
@@ -19,18 +21,17 @@ const CheckoutSummary = ({ cartItems }) => {
                     </View>
                     <Text style={styles.itemName}>{item.title}</Text>
                     <Text style={styles.itemPrice}>${parseFloat(item.price).toFixed(2)}</Text>
-                    
+
                 </View>
-                
-                
+
             ))}
-              <View style={styles.subTotalRow}>
+            <View style={styles.subTotalRow}>
                 <Text style={styles.subTotalLabel}>Subtotal</Text>
                 <Text style={styles.subTotalValue}>${calculateTotal()}</Text>
             </View>
             <View style={styles.totalRow}>
                 <Text >Shipping</Text>
-                <Text>Calculated at next step</Text>
+                <Text>${selectedShippingPrice.toFixed(2)}</Text>
             </View>
             <View style={styles.totalRow}>
                 <Text style={styles.totalLabel}>Total</Text>
@@ -43,14 +44,14 @@ const CheckoutSummary = ({ cartItems }) => {
 const styles = StyleSheet.create({
     summaryContainer: {
         padding: 10,
-        paddingVertical :-10
+        paddingVertical: -10
     },
     summaryText: {
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: 'center',
         marginVertical: 20,
-        
+
     },
     itemRow: {
         flexDirection: 'row',
@@ -86,30 +87,30 @@ const styles = StyleSheet.create({
         marginLeft: 10, // Adjust the spacing as needed
     },
     itemPrice: {
-        
+
     },
     subTotalRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingVertical: 15,
-        
+
     },
     totalRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingVertical: 5,
-        
+
     },
     totalLabel: {
         fontWeight: 'bold',
 
     },
-    subTotalValue:{
+    subTotalValue: {
         fontWeight: 'bold',
     },
     totalValue: {
         fontWeight: 'bold',
-        fontSize:18
+        fontSize: 18
     },
     // ... any other styles you have
 });
