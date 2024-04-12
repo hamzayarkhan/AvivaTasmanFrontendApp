@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between", // Aligns logo to the left, icons to the right
         alignItems: "center", // Vertically center everything
         paddingHorizontal: 20,
-        paddingVertical: 25,
         backgroundColor: "#ffffff"
     },
     iconsContainer: {
@@ -46,6 +45,7 @@ const styles = StyleSheet.create({
     },
     menuContainer: {
         marginLeft: 10,
+        marginTop:20
     },
     icon: {
         fontSize: 20,
@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
         // Adjust these values according to your logo's size
         width: 100,
         height: 100,
-        resizeMode: 'contain',// This ensures your logo scales properly
+        resizeMode: 'contain',
+        marginTop:20// This ensures your logo scales properly
     },
 });
 export default Header;

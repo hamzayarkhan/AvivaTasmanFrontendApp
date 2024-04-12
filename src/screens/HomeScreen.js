@@ -19,15 +19,4 @@ export default function HomeScreen() {
   )
 }
 
-const styles = StyleSheet.create({
-  Container : {
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1
-  },
-  text: {
-    fontSize : 30,
-    fontWeight : 'bold'
-  }
-})
+

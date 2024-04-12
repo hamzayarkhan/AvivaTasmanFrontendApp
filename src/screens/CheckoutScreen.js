@@ -98,7 +98,7 @@ const CheckoutScreen = () => {
           onPrevious={handlePreviousStep}
           onShippingSelection={handleShippingSelection}
           selectedShippingOption={selectedShippingOption}
-          selectedShippingPrice={selectedShippingPrice}// Pass the selected option
+          selectedShippingPrice={selectedShippingPrice}
           informationData={informationData}
         />
 

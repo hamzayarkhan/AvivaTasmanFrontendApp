@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 
 
-const InformationForm = ({ onNext, informationData }) => {
+const InformationStep = ({ onNext, informationData }) => {
     const [errors, setErrors] = useState({});
     const [isSelected, setSelection] = useState(false);
     const [firstName, setFirstName] = useState(informationData?.addressDetails?.firstName || '');
@@ -300,4 +300,4 @@ const styles = StyleSheet.create({
     // Add styles for checkbox and dropdown components
 });
 
-export default InformationForm;
+export default InformationStep;

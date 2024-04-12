@@ -46,6 +46,30 @@ const CartScreen = () => {
         });
         setCartItems(updatedCartItems);
     };
+    const handleQuantityInputChange = (id, text) => {
+        const quantity = parseInt(text, 10);
+        // Check if the quantity is a number and is greater than zero
+        if (!isNaN(quantity) && quantity > 0) {
+            const updatedCartItems = cartItems.map(item => {
+                if (item.id === id) {
+                    return { ...item, quantity };
+                }
+                return item;
+            });
+            setCartItems(updatedCartItems);
+        } else {
+            // Optionally handle invalid input here, such as setting it back to previous valid quantity
+            const updatedCartItems = cartItems.map(item => {
+                if (item.id === id) {
+                    // Keep the quantity the same if the input is not a valid number
+                    return item; 
+                }
+                return item;
+            });
+            setCartItems(updatedCartItems);
+        }
+    };
+    
 
     const handleRemoveItem = (id) => {
         const updatedCartItems = cartItems.filter(item => item.id !== id);
@@ -138,7 +162,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     scrollView: {
-        marginBottom: 20, // space for the checkout container
+        marginBottom: 20,
     },
     table: {
         borderWidth: 1,
@@ -147,7 +171,7 @@ const styles = StyleSheet.create({
     tableRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
@@ -164,17 +188,14 @@ const styles = StyleSheet.create({
     productTitle: {
         flex: 1,
         fontSize: 16,
-        marginLeft: 10,
     },
     quantityContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        marginLeft:30,
+        justifyContent: 'center',
     },
     quantityButton: {
         padding: 6,
-        marginHorizontal: 1,
         fontSize: 14,
         color: '#17588e',
     },
@@ -183,10 +204,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     totalPrice: {
-        flex: 1,
-        textAlign: 'left',
-        marginRight: 10,
         fontSize: 16,
+        color: 'black',
+        width: 60, // Fixed width for better alignment
+        textAlign: 'right', // Aligns the text to the right
     },
     checkoutContainer: {
         borderTopWidth: 1,
@@ -195,9 +216,9 @@ const styles = StyleSheet.create({
     },
     totalRow: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10, // add some margin between this row and the taxesShipping Text
-      },
+    },
       estimatedTotal: {
         fontSize: 16,
           fontWeight: 'bold',
@@ -241,28 +262,27 @@ const styles = StyleSheet.create({
     },
     tableHeaderQuantity: {
         width: 140, // Adjust based on the width of your quantity container
-        marginLeft: 10,
+        marginLeft: 0,
+        
     },
     tableHeaderTotal: {
         width: 80, // Adjust based on your layout
-        marginRight: 10,
+        marginRight: 0,
         textAlign: 'right',
     },
     deleteButton: {
-        padding: 6,
         fontSize: 18,
         color: 'red',
-        marginRight:5
+        marginLeft: 10,
     },
     quantityInput: {
-        height: 40, // Match the height with the plus and minus buttons
+        height: 40,
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 5,
         padding: 10,
-        marginHorizontal: 5,
-        width: 40, // or adjust the width as needed
         textAlign: 'center',
+        width: 50,  // Ensuring it does not expand too much
     },
     emptyCartContainer: {
         flex: 1,

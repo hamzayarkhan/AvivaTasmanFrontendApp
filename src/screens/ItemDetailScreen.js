@@ -170,10 +170,12 @@ const styles = StyleSheet.create({
   quantityButton: {
     fontSize: 20,
     padding: 10,
+    borderRadius: 15,
     backgroundColor: '#17588e',
     color: "white",
   },
   quantityInput: {
+    borderRadius: 15,
     borderWidth: 1,
     borderColor: 'black',
     padding: 10,

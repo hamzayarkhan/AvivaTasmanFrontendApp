@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button"
 
-const Shipping = ({ onNext, onPrevious, onShippingSelection, selectedShippingOption, informationData }) => {
+const ShippingStep = ({ onNext, onPrevious, onShippingSelection, selectedShippingOption, informationData }) => {
     const [selectedOption, setSelectedOption] = useState(selectedShippingOption);
     const handleSelectionChange = (value) => {
         setSelectedOption(value); // This updates the local state
@@ -48,12 +48,12 @@ const Shipping = ({ onNext, onPrevious, onShippingSelection, selectedShippingOpt
                     />
                 </RadioButtonGroup>
             </View>
-            <View style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button} onPress={onPrevious}>
-                    <Text style={styles.buttonText}>Return to information</Text>
+            <View style={styles.buttonRow}>
+                <TouchableOpacity style={[styles.button, styles.buttonOutline]} onPress={onPrevious}>
+                    <Text style={styles.buttonOutlineText}>Return to information</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.continueButton]} onPress={() => onNext('payment')}>
-                    <Text style={styles.continueButton}>Continue to payment</Text>
+                <TouchableOpacity style={[styles.button, styles.buttonFilled]} onPress={() => onNext('payment')}>
+                    <Text style={styles.buttonText}>Continue to payment</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -107,33 +107,37 @@ const styles = StyleSheet.create({
     price: {
         fontWeight: 'bold',
     },
-    buttonsContainer: {
+    buttonRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 24,
+        marginTop: 20,
     },
     button: {
-        paddingVertical: 12,
-        paddingHorizontal: 24,
+        padding: 10,
         borderRadius: 15,
+        flex: 1, // Each button will take up half the space
+        marginHorizontal: 5,
+    },
+    buttonOutline: {
+        backgroundColor: 'transparent',
         borderWidth: 1,
         borderColor: '#17588e',
-        backgroundColor: 'transparent',
     },
-    buttonText: {
+    buttonOutlineText: {
         color: '#17588e',
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
-    continueButton: {
+    buttonFilled: {
         backgroundColor: '#17588e',
-        borderColor: '#17588e',
+    },
+    buttonText: {
         color: '#ffffff',
-        fontWeight: 'bold'
-
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
     // Add any additional styling you need
 });
 
 
-export default Shipping
+export default ShippingStep

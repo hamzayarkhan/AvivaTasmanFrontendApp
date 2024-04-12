@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Step from './Step';
-import InformationForm from './InformationForm';
-import Shipping from './Shipping';
-import Payment from './Payment';
+import InformationStep from './InformationStep';
+import ShippingStep from './ShippingStep';
+import PaymentStep from './PaymentStep';
 
-const CheckoutWizard = ({ currentStep, onNext, onPrevious, onShippingSelection, selectedShippingOption,selectedShippingPrice, informationData }) => {
-  
+const CheckoutWizard = ({ currentStep, onNext, onPrevious, onShippingSelection, selectedShippingOption, selectedShippingPrice, informationData }) => {
+
     return (
         <>
             <View style={styles.headerContainer}>
@@ -16,9 +16,9 @@ const CheckoutWizard = ({ currentStep, onNext, onPrevious, onShippingSelection, 
                 <Step title="Payment" currentStep={currentStep} stepName="payment" />
             </View>
             <View>
-                {currentStep === "information" && <InformationForm onNext={onNext} informationData={informationData} />}
+                {currentStep === "information" && <InformationStep onNext={onNext} informationData={informationData} />}
                 {currentStep === "shipping" && (
-                    <Shipping
+                    <ShippingStep
                         onNext={() => onNext('payment')}
                         onPrevious={onPrevious}
                         onShippingSelection={onShippingSelection}
@@ -28,15 +28,15 @@ const CheckoutWizard = ({ currentStep, onNext, onPrevious, onShippingSelection, 
                 )}
                 {currentStep === 'payment' && (
 
-                    <Payment
+                    <PaymentStep
                         onNext={() => onNext('complete')}
                         onPrevious={onPrevious}
                         informationData={informationData}
                         selectedShippingOption={selectedShippingOption}
-                        selectedShippingPrice = {selectedShippingPrice}                   
+                        selectedShippingPrice={selectedShippingPrice}
                     />
                 )
-                
+
                 }
             </View>
         </>
