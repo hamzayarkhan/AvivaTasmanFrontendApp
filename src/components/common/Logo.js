@@ -16,11 +16,10 @@ const styles = StyleSheet.create({
   imageContainer: {
     justifyContent: "center",
     flexDirection: "row",
-    marginTop: 15,
   },
   logo: {
-    width: 130,
-    height: 130,
+    width: 300,
+    height: 180,
     resizeMode: "contain",
     alignItems: "center",
   },
