@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import Logo from '../components/common/Logo';
 import { useNavigation } from "@react-navigation/native";
 import { AuthService } from "../services/AuthService";
-
+import OTP from '../components/common/OTP';
 
 export default function LoginForm() {
 
@@ -15,6 +15,7 @@ export default function LoginForm() {
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [responseType, setResponseType] = useState("");
+  const [otpModalVisible,setOtpModalVisible] = useState(false);
 
   const navigation = useNavigation();
   const inputStyle = (value, required) => {
@@ -106,7 +107,12 @@ export default function LoginForm() {
       } else {
         // setResponseMessage(response.message);
         setResponseType("success");
-
+        setOtpModalVisible(true);
+        <OTP 
+          visible={otpModalVisible}
+          onClose={setOtpModalVisible}
+          email = {email}
+        />
       }
     } catch (error) {
       console.error('Failed to login', error);
