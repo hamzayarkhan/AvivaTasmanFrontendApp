@@ -1,8 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, TextInput, Alert } from 'react-native';
+import { AuthService } from '../../services/AuthService';
+
+
 
 const OTP = ({ visible, onClose, email }) => {
+    console.log('here')
+    console.log(otp)
     const [otp, setOtp] = useState('');
 
     // State for handling resend cooldown logic
@@ -14,43 +19,55 @@ const OTP = ({ visible, onClose, email }) => {
     }, []);
 
     const handleSubmit = async () => {
-        if (otp.length !== 6 || !/^\d+$/.test(otp)) {
-            showAlert("Error", "OTP must be a 6-digit number.");
-            return;
-        }
-
+       
         //verifyOTP function
-        const verifyResult = await verifyOTP({ email, otp });
-
-        if (verifyResult.success) {
-            showAlert("Success", "OTP verified successfully!");
-
-        } else {
-            showAlert("Error", verifyResult.error || "Verification failed. Please try again.");
+        const data =  {
+            email : email,
+            otp :otp
         }
+        console.log(data)
+        // const response = await AuthService.VerifyOTP(data);
+        // console.log(response)
+        // if (verifyResult.success) {
+        //     showAlert("Success", "OTP verified successfully!");
+        //     useNavigation.navigate('HomeScreen')
+
+        // } else {
+        //     showAlert("Error", verifyResult.error || "Verification failed. Please try again.");
+        // }
     };
 
-    const handleResendOTP = () => {
+    const handleResendOTP = async () => {
         if (resendCooldown) return; // If currently in cooldown, do nothing
-        setResendCooldown(true);
-        setCooldownTimer(30); // Example cooldown period of 30 seconds
-
-
-
-        showAlert("Info", 'OTP resent successfully!');
-
-        // Countdown logic to end cooldown
-        const countdown = setInterval(() => {
-            setCooldownTimer(prevTimer => {
-                if (prevTimer <= 1) {
-                    clearInterval(countdown);
-                    setResendCooldown(false);
-                    return 0;
-                }
-                return prevTimer - 1;
-            });
-        }, 1000);
+    
+        // try {
+        //     // Make a POST request to resend OTP
+        //     const response = await AuthService.VerifyOTP(email,otp);
+    
+        //     // If the request is successful, show a success message and start cooldown timer
+        //     showAlert("Info", 'OTP resent successfully!');
+    
+        //     // Start cooldown timer
+        //     setResendCooldown(true);
+        //     setCooldownTimer(30); // Example cooldown period of 30 seconds
+        //     const countdown = setInterval(() => {
+        //         setCooldownTimer(prevTimer => {
+        //             if (prevTimer <= 1) {
+        //                 clearInterval(countdown);
+        //                 setResendCooldown(false);
+        //                 return 0;
+        //             }
+        //             return prevTimer - 1;
+        //         });
+        //     }, 1000);
+        // } catch (error) {
+        //     // If there's an error with the request, show an error message
+        //     console.error("Error resending OTP:", error);
+        //     showAlert("Error", "Failed to resend OTP. Please try again later.");
+        // }
     };
+
+    
 
     const showAlert = (title, message) => {
         Alert.alert(
@@ -61,14 +78,6 @@ const OTP = ({ visible, onClose, email }) => {
         );
     };
 
-    //function for OTP verification
-    const verifyOTP = async ({ email, otp }) => {
-
-
-
-
-        return { success: true };
-    };
     return (
         <Modal
             animationType="slide"

@@ -103,16 +103,14 @@ export default function LoginForm() {
         console.log(userData);
         setResponseMessage(response.message);
         setResponseType("error");
+        
         // setValidationMessage(response.message);
       } else {
         // setResponseMessage(response.message);
         setResponseType("success");
         setOtpModalVisible(true);
-        <OTP 
-          visible={otpModalVisible}
-          onClose={setOtpModalVisible}
-          email = {email}
-        />
+        setResponseMessage(response.message);
+        
       }
     } catch (error) {
       console.error('Failed to login', error);
@@ -124,7 +122,9 @@ export default function LoginForm() {
   };
 
   return (
-    <View style={styles.container}>
+   
+      <>
+       <View style={styles.container}>
       <Logo />
       {/* <Text style={styles.heading}>Login</Text> */}
       
@@ -194,7 +194,16 @@ export default function LoginForm() {
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
+      
+          
+      
+
     </View>
+      <OTP 
+      visible={otpModalVisible}
+      onClose={setOtpModalVisible}
+      email={email} />
+      </>
   );
 }
 

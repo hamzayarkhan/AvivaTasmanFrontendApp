@@ -7,7 +7,7 @@ const ENDPOINTS = {
   login: 'GetOTPByLoginAsync',
   forgotPassword: 'Auth/ForgotPassword',
   resetPassword: 'Auth/ResetPasswordAsync',
-  verifyOTP: 'Auth/VerifyOTP'
+  verifyOTP: 'VerifyOTP'
 };
 
 export const AuthService = {
