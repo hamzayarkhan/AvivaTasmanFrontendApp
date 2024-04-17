@@ -1,81 +1,43 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, TextInput, Alert } from 'react-native';
-import { AuthService } from '../../services/AuthService';
-
-
 
 const OTP = ({ visible, onClose, email }) => {
-    console.log('here')
-    console.log(otp)
     const [otp, setOtp] = useState('');
-
-    // State for handling resend cooldown logic
     const [resendCooldown, setResendCooldown] = useState(false);
-    const [cooldownTimer, setCooldownTimer] = useState(0);
+    const [cooldownTimer, setCooldownTimer] = useState(30);
 
     useEffect(() => {
-
-    }, []);
-
-    const handleSubmit = async () => {
-       
-        //verifyOTP function
-        const data =  {
-            email : email,
-            otp :otp
+        let interval;
+        if (resendCooldown && cooldownTimer > 0) {
+            interval = setInterval(() => {
+                setCooldownTimer((timer) => timer - 1);
+            }, 1000);
+        } else if (cooldownTimer === 0) {
+            setResendCooldown(false);
+            setCooldownTimer(30);
+            clearInterval(interval);
         }
-        console.log(data)
-        // const response = await AuthService.VerifyOTP(data);
-        // console.log(response)
-        // if (verifyResult.success) {
-        //     showAlert("Success", "OTP verified successfully!");
-        //     useNavigation.navigate('HomeScreen')
-
-        // } else {
-        //     showAlert("Error", verifyResult.error || "Verification failed. Please try again.");
-        // }
-    };
+        return () => clearInterval(interval);
+    }, [resendCooldown, cooldownTimer]);
 
     const handleResendOTP = async () => {
-        if (resendCooldown) return; // If currently in cooldown, do nothing
-    
-        // try {
-        //     // Make a POST request to resend OTP
-        //     const response = await AuthService.VerifyOTP(email,otp);
-    
-        //     // If the request is successful, show a success message and start cooldown timer
-        //     showAlert("Info", 'OTP resent successfully!');
-    
-        //     // Start cooldown timer
-        //     setResendCooldown(true);
-        //     setCooldownTimer(30); // Example cooldown period of 30 seconds
-        //     const countdown = setInterval(() => {
-        //         setCooldownTimer(prevTimer => {
-        //             if (prevTimer <= 1) {
-        //                 clearInterval(countdown);
-        //                 setResendCooldown(false);
-        //                 return 0;
-        //             }
-        //             return prevTimer - 1;
-        //         });
-        //     }, 1000);
-        // } catch (error) {
-        //     // If there's an error with the request, show an error message
-        //     console.error("Error resending OTP:", error);
-        //     showAlert("Error", "Failed to resend OTP. Please try again later.");
-        // }
+        if (!resendCooldown) {
+            setResendCooldown(true);
+            // Assuming AuthService.resendOTP is the function to call your API
+            try {
+                const response = await AuthService.resendOTP(email);
+                console.log('OTP resent successfully', response);
+                Alert.alert("OTP Resent", "A new OTP has been sent to your email.");
+            } catch (error) {
+                console.error('Failed to resend OTP:', error);
+                Alert.alert("Failed", "Error resending OTP. Please try again later.");
+            }
+        }
     };
 
-    
-
-    const showAlert = (title, message) => {
-        Alert.alert(
-            title,
-            message,
-            [{ text: "OK" }],
-            { cancelable: false }
-        );
+    const handleSubmit = async () => {
+        console.log('OTP Submitted:', otp);
+        // Further API call to verify OTP can go here
     };
 
     return (
@@ -85,7 +47,8 @@ const OTP = ({ visible, onClose, email }) => {
             visible={visible}
             onRequestClose={onClose}
         >
-            <TouchableOpacity style={styles.centeredView} onPress={onClose}>
+            <TouchableOpacity style={styles.centeredView} onPress={onClose} activeOpacity={1}>
+                <View style={styles.overlay} />
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>Verify OTP</Text>
                     <TextInput
@@ -93,37 +56,58 @@ const OTP = ({ visible, onClose, email }) => {
                         placeholder="Enter OTP"
                         value={otp}
                         onChangeText={text => setOtp(text)}
+                        keyboardType="numeric"
                     />
-                    
                     <View style={styles.buttonRow}>
-                        <TouchableOpacity style={[styles.button, styles.buttonOutline]} onPress={handleResendOTP}>
-                            <Text style={styles.buttonOutlineText}>Resend OTP</Text>
+                    <TouchableOpacity
+                            style={[styles.button, resendCooldown ? styles.buttonDisabled : styles.buttonActive]}
+                            onPress={handleResendOTP}
+                            disabled={resendCooldown}
+                        >
+                            <Text style={styles.buttonText}>
+                                Resend OTP {resendCooldown ? `(${cooldownTimer}s)` : ""}
+                            </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.button, styles.buttonFilled]} onPress={handleSubmit}>
+                        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                             <Text style={styles.buttonText}>Submit</Text>
                         </TouchableOpacity>
+                        
                     </View>
                 </View>
             </TouchableOpacity>
-
-
         </Modal>
-    )
-}
+    );
+};
+
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
     modalView: {
+        margin: 20,
         backgroundColor: 'white',
-        borderRadius: 15,
-        width: '80%',
-        height: '25%',
-        padding: 20,
+        borderRadius: 20,
+        padding: 35,
         alignItems: 'center',
-        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        width: '80%',
     },
     modalText: {
         marginBottom: 15,
@@ -136,59 +120,31 @@ const styles = StyleSheet.create({
         borderColor: '#17588e',
         borderWidth: 1,
         borderRadius: 8,
-        marginBottom: 10,
         paddingHorizontal: 10,
-    },
-    button: {
-        borderRadius: 5,
-        padding: 10,
-        elevation: 2,
-        marginBottom: 10,
-        width: '100%',
-    },
-    buttonResend: {
-        backgroundColor: '#2196F3',
-    },
-    buttonSubmit: {
-        backgroundColor: 'green',
-    },
-    textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
     },
     buttonRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 10,
+        marginTop: 20,
     },
     button: {
         padding: 10,
         borderRadius: 8,
         flex: 1, // Each button will take up half the space
         marginHorizontal: 5,
-    },
-    buttonOutline: {
-        backgroundColor: 'transparent',
-        borderWidth: 1,
-        borderColor: '#17588e',
-    },
-    buttonOutlineText: {
-        color: '#17588e',
-        textAlign: 'center',
-        fontWeight: 'bold',
-    },
-    buttonFilled: {
-        backgroundColor: '#17588e',
+        backgroundColor:'green'
     },
     buttonText: {
-        color: '#ffffff',
+        color: 'white',
         textAlign: 'center',
         fontWeight: 'bold',
+    },
+    buttonDisabled: {
+        backgroundColor: '#ccc',
+    },
+    buttonActive: {
+        backgroundColor: '#17588e',
     },
 });
 
-export default OTP
-
-
-
+export default OTP;

@@ -199,10 +199,11 @@ export default function LoginForm() {
       
 
     </View>
-      <OTP 
-      visible={otpModalVisible}
-      onClose={setOtpModalVisible}
-      email={email} />
+    <OTP 
+        visible={otpModalVisible}
+        onClose={() => setOtpModalVisible(false)}
+        email={email}
+      />
       </>
   );
 }
