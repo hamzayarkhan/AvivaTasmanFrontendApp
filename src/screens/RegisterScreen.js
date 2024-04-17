@@ -18,88 +18,68 @@ const RegisterScreen = () => {
   const [responseMessage, setResponseMessage] = useState("");
   const [responseType, setResponseType] = useState("");
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const handleChange = (name, value) => {
-    // Set the value first
     setFields(prevFields => ({ ...prevFields, [name]: value }));
-
-    // Validate the email when the 'email' field is changed
-    if (name === 'email') {
-      validateEmail(value);
-    }
-  };
-  const validateEmail = (email) => {
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (!regex.test(String(email).toLowerCase())) {
+    if (name === 'email' && !validateEmail(value)) {
       setErrors(prevErrors => ({ ...prevErrors, email: "Invalid email format" }));
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, email: '' })); // Clear the email error if valid
+      setErrors(prevErrors => ({ ...prevErrors, [name]: validateField(name, value) }));
+    }
+
+    if (['password', 'confirmPassword'].includes(name)) {
+      validatePasswords();
     }
   };
 
-  const validateField = (fields, name, value) => {
-    let newErrors = { ...errors };
-    // Check if the field is empty
-    if (!value) {
-      newErrors[name] = "This field is required";
-    } else {
-      delete newErrors[name];
-    }
+  const validateEmail = (email) => {
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return regex.test(String(email).toLowerCase());
+  };
 
-    // Specific validation for the password fields
-    if (name === "password" || name === "confirmPassword") {
-      if (!value) {
-        newErrors[name] = "This field is required";
-      }
-      else if (fields.password !== fields.confirmPassword) {
-        newErrors['password'] = "Passwords do not match";
-        newErrors['confirmPassword'] = "Passwords do not match";
-      } else {
-        delete newErrors['password'];
-        delete newErrors['confirmPassword'];
-      }
-    }
-    return newErrors;
+  const validateField = (name, value) => {
+    return value ? '' : 'This field is required';
+  };
+
+  const validatePasswords = () => {
+    const { password, confirmPassword } = fields;
+    let passwordError = password !== confirmPassword ? "Passwords do not match" : '';
+    setErrors(prevErrors => ({ ...prevErrors, password: passwordError, confirmPassword: passwordError }));
   };
 
   const handleSubmit = async () => {
-    let validationErrors = {};
+    let isValid = true;
+    const newErrors = {};
     Object.keys(fields).forEach(key => {
-      validationErrors = { ...validationErrors, ...validateField(fields, key, fields[key]) };
+      const error = validateField(key, fields[key]);
+      if (error) {
+        newErrors[key] = error;
+        isValid = false;
+      }
     });
 
-    setErrors(validationErrors);
+    validatePasswords();
+    setErrors(newErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
-
-      const data = {
-        firstName: fields['firstName'],
-        lastName: fields['lastName'],
-        email: fields['email'],
-        phoneNumber: fields['phone'],
-        password: fields['password'],
-
-
-      }
-      console.log(data);
+    if (isValid && !newErrors.password) {
       try {
-        const response = await AuthService.Register(data);
-        console.log(response);
-        if (!response.isSuccess) {
-          setResponseMessage(response.message || "An error occurred during registration.");
-          setResponseType("error");
-        }
-        else {
-          setResponseMessage(response.message);
-          setResponseType("success");
-        }
+        const data = {
+          firstName: fields['firstName'],
+          lastName: fields['lastName'],
+          phoneNumber: fields['phone'],
+          email: fields['email'],
+          password: fields['password']
 
+        }
+        console.log(data)
+        const response = await AuthService.Register(data);
+        setResponseType(response.isSuccess ? 'success' : 'error');
+        setResponseMessage(response.message || "An error occurred during registration.");
       } catch (error) {
         setResponseMessage(error.message);
         setResponseType("error");
       }
-
     }
   };
 
