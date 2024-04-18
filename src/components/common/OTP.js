@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, TextInput, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { AuthService } from '../../services/AuthService';
 
-const OTP = ({ visible, onClose, email }) => {
+
+const OTP = ({ visible, onClose, loginMethod,email,password, phoneNumber }) => {
     const [otp, setOtp] = useState('');
     const [resendCooldown, setResendCooldown] = useState(false);
     const [cooldownTimer, setCooldownTimer] = useState(30);
+    const navigation = useNavigation();
 
     useEffect(() => {
         let interval;
@@ -24,20 +28,53 @@ const OTP = ({ visible, onClose, email }) => {
         if (!resendCooldown) {
             setResendCooldown(true);
             // Assuming AuthService.resendOTP is the function to call your API
-            try {
-                const response = await AuthService.resendOTP(email);
+
+            const data = {   
+                 loginMethod : loginMethod,
+                 email:email,
+                 password : password,
+                 phoneNumber :phoneNumber,
+                 IsAuthenticated: true
+
+           }
+           console.log(data)
+             try {
+              const response = await AuthService.ResendOTP(data);
                 console.log('OTP resent successfully', response);
                 Alert.alert("OTP Resent", "A new OTP has been sent to your email.");
-            } catch (error) {
-                console.error('Failed to resend OTP:', error);
+             } catch (error) {
+                 console.error('Failed to resend OTP:', error);
                 Alert.alert("Failed", "Error resending OTP. Please try again later.");
-            }
+             }
         }
     };
 
     const handleSubmit = async () => {
+        if (otp.length !== 6 || isNaN(otp)) {
+            Alert.alert("Invalid OTP", "OTP should be a 6-digit number.");
+            return;
+        }
         console.log('OTP Submitted:', otp);
         // Further API call to verify OTP can go here
+
+        const data = {   
+            email: email,
+            otp: otp
+        }
+        console.log(data)
+        try {
+           const response = await AuthService.VerifyOTP(data); 
+            
+            console.log('OTP verified successfully', response);
+            console.log(response)
+
+            Alert.alert("Success", "OTP verified successfully.");
+            //navigation.navigate('HomeScreen');
+        } catch (error) {
+            console.error('Failed to verify OTP:', error);
+            Alert.alert("Failed", "Error verifying OTP. Please try again later.");
+        }
+
     };
 
     return (
@@ -45,9 +82,9 @@ const OTP = ({ visible, onClose, email }) => {
             animationType="slide"
             transparent={true}
             visible={visible}
-            onRequestClose={onClose}
+            onRequestClose={() => {}}
         >
-            <TouchableOpacity style={styles.centeredView} onPress={onClose} activeOpacity={1}>
+            <TouchableOpacity style={styles.centeredView} activeOpacity={1}>
                 <View style={styles.overlay} />
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>Verify OTP</Text>
@@ -59,7 +96,7 @@ const OTP = ({ visible, onClose, email }) => {
                         keyboardType="numeric"
                     />
                     <View style={styles.buttonRow}>
-                    <TouchableOpacity
+                        <TouchableOpacity
                             style={[styles.button, resendCooldown ? styles.buttonDisabled : styles.buttonActive]}
                             onPress={handleResendOTP}
                             disabled={resendCooldown}
@@ -71,7 +108,6 @@ const OTP = ({ visible, onClose, email }) => {
                         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                             <Text style={styles.buttonText}>Submit</Text>
                         </TouchableOpacity>
-                        
                     </View>
                 </View>
             </TouchableOpacity>

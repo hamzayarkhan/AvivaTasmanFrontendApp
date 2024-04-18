@@ -7,7 +7,8 @@ const ENDPOINTS = {
   login: 'GetOTPByLoginAsync',
   forgotPassword: 'Auth/ForgotPassword',
   resetPassword: 'Auth/ResetPasswordAsync',
-  verifyOTP: 'VerifyOTP'
+  verifyOTP: 'VerifyOTP',
+  resendOTP: 'GetOTPByLoginAsync'
 };
 
 export const AuthService = {
@@ -30,6 +31,10 @@ export const AuthService = {
   async VerifyOTP(data) {
     return await _apiService.post(AUTH_API_BASE_URL, ENDPOINTS.verifyOTP, data);
   },
+
+  async ResendOTP(data) {
+    return await _apiService.post(AUTH_API_BASE_URL, ENDPOINTS.resendOTP, data);
+  }
 
   // Additional authentication-related methods...
 };

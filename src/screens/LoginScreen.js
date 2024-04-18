@@ -16,6 +16,9 @@ export default function LoginForm() {
   const [responseMessage, setResponseMessage] = useState("");
   const [responseType, setResponseType] = useState("");
   const [otpModalVisible,setOtpModalVisible] = useState(false);
+  // const [userData, setUserData] = useState({})
+
+
 
   const navigation = useNavigation();
   const inputStyle = (value, required) => {
@@ -89,35 +92,29 @@ export default function LoginForm() {
     if (!validateForm()) {
       return;
     }
-    const userData = {
-      loginWithEmail: loginMethod,
-      phoneNumber: phone,
-      email: email,
-      password: password,
-    };
-    console.log(userData);
-
+  
     try {
-      const response = await AuthService.Login(userData);
+      const response = await AuthService.Login({
+        loginWithEmail: loginMethod,
+        phoneNumber: phone,
+        email: email,
+        password: password,
+      });
+  
       if (!response.isSuccess) {
-        console.log(userData);
         setResponseMessage(response.message);
         setResponseType("error");
-        
-        // setValidationMessage(response.message);
       } else {
-        // setResponseMessage(response.message);
         setResponseType("success");
         setOtpModalVisible(true);
         setResponseMessage(response.message);
-        
+    
       }
     } catch (error) {
       console.error('Failed to login', error);
-      // setValidationMessage('Failed to login. Please try again.');
-    } finally {
-      // stopSubmitting();
     }
+  
+  
 
   };
 
@@ -202,7 +199,10 @@ export default function LoginForm() {
     <OTP 
         visible={otpModalVisible}
         onClose={() => setOtpModalVisible(false)}
-        email={email}
+        loginMethod = {loginMethod}
+        email = {email}
+        password = {password}
+        phoneNumber ={phone}
       />
       </>
   );
