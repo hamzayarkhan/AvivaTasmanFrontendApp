@@ -20,13 +20,13 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ItemDetailScreen" component={ItemDetailScreen} options={{ headerShown: false }} />
         <Stack.Screen name="CartScreen" component={CartScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} options={{ headerShown: false }} /> */}
+        <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} options={{ headerShown: false }} />
         
-           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
-           <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }} />
+           {/* <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+           <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }} /> */}
         
 
 

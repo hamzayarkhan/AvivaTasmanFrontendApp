@@ -3,7 +3,7 @@ export const productsData = [
     id: 1,
     title: 'Deluxe Food Package',
     price: '184.00 AUD',
-    image_url: require('../../assets/images/FoodPackage.png'),
+    image_url: require('../../assets/images/Food Package 1.0.png'),
     quantity: 10,
     contents: [
       "Regular Whole Chicken 3 PCS",
@@ -21,7 +21,7 @@ export const productsData = [
     id: 2,
     title: 'Family Food Package',
     price: '160.00 AUD',
-    image_url: require('../../assets/images/FoodPackage.png'),
+    image_url: require('../../assets/images/Food Package 1.0.png'),
     quantity: 100,
     contents: [
       "Grilled Chicken 2 PCS",
@@ -39,7 +39,7 @@ export const productsData = [
     id: 3,
     title: 'Essential Food Package',
     price: '84.00 AUD',
-    image_url: require('../../assets/images/FoodPackage.png'),
+    image_url: require('../../assets/images/Food Package 1.0.png'),
     quantity: 0,
     contents: [
       "Fried Fish 3 PCS",
@@ -57,7 +57,7 @@ export const productsData = [
     id: 4,
     title: 'Gourmet Food Package',
     price: '200.00 AUD',
-    image_url: require('../../assets/images/FoodPackage.png'),
+    image_url: require('../../assets/images/Food Package 1.0.png'),
     quantity: 0,
     contents: [
       "Roast Beef 2 KG",
@@ -75,7 +75,7 @@ export const productsData = [
     id: 5,
     title: 'Weekly Staples Package',
     price: '120.00 AUD',
-    image_url: require('../../assets/images/FoodPackage.png'),
+    image_url: require('../../assets/images/Food Package 1.0.png'),
     contents: [
       "Spaghetti Pasta 3 Packs",
       "Tomato Sauce 3 Jars",
@@ -92,7 +92,7 @@ export const productsData = [
     id: 6,
     title: 'Vegetarian Delight Package',
     price: '150.00 AUD',
-    image_url: require('../../assets/images/FoodPackage.png'),
+    image_url: require('../../assets/images/Food Package 2.png'),
     contents: [
       "Tofu 2KG",
       "Tempeh 1KG",
@@ -109,7 +109,7 @@ export const productsData = [
   //   id: 7,
   //   title: 'Quick Meals Package',
   //   price: '99.00 AUD',
-  //   image_url: require('../../assets/images/FoodPackage.png'),
+  //   image_url: require('../../assets/images/Food Package 1.0.png'),
   //   contents: [
   //     "Frozen Pizza 2",
   //     "Chicken Nuggets 1KG",
