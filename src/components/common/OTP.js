@@ -30,7 +30,7 @@ const OTP = ({ visible, onClose, loginMethod,email,password, phoneNumber }) => {
             // Assuming AuthService.resendOTP is the function to call your API
 
             const data = {   
-                 loginMethod : loginMethod,
+                 loginWithEmail : loginMethod,
                  email:email,
                  password : password,
                  phoneNumber :phoneNumber,
@@ -41,7 +41,7 @@ const OTP = ({ visible, onClose, loginMethod,email,password, phoneNumber }) => {
              try {
               const response = await AuthService.ResendOTP(data);
                 console.log('OTP resent successfully', response);
-                Alert.alert("OTP Resent", "A new OTP has been sent to your email.");
+                Alert.alert(response.message);
              } catch (error) {
                  console.error('Failed to resend OTP:', error);
                 Alert.alert("Failed", "Error resending OTP. Please try again later.");
@@ -68,8 +68,13 @@ const OTP = ({ visible, onClose, loginMethod,email,password, phoneNumber }) => {
             console.log('OTP verified successfully', response);
             console.log(response)
 
-            Alert.alert("Success", "OTP verified successfully.");
-            //navigation.navigate('HomeScreen');
+            Alert.alert(response.message);
+            if (response.status) 
+            { navigation.navigate('HomeScreen');
+                
+            } else
+            {alert.alert("OTP Wrong")}
+            
         } catch (error) {
             console.error('Failed to verify OTP:', error);
             Alert.alert("Failed", "Error verifying OTP. Please try again later.");
