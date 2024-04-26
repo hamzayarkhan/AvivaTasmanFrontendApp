@@ -1,14 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import resolveProductImage from '../../utils/customfunctions';
 
 const ItemCard = ({ p }) => {
     const navigation = useNavigation();
     const handleDetails = (id) => {
-        navigation.navigate("ItemDetailScreen", { id: id });
+        console.log(id)
+        if (id) {
+            navigation.navigate("ItemDetailScreen", { id: id });
+        }
+        else {
+            Alert.alert("Item id not found")
+        }
+        
     };
     const productImage = resolveProductImage(p.name);
+
 
     return (
         <View style={styles.cardContainer}>
@@ -16,9 +24,9 @@ const ItemCard = ({ p }) => {
                 <Image source={productImage} style={styles.image} />
                 <View style={styles.textContainer}>
                     <Text style={styles.title}>{p.name}</Text>
-                    <Text style={styles.price}>{p.variants ? p.variants[0].sales_price : "N/A"} PHP</Text>
+                    <Text style={styles.price}> {p.variants ? p.variants[0].sales_price : "N/A"} PHP</Text>
                 </View>
-            </TouchableOpacity>
+            </TouchableOpacity> 
         </View>
     );
 };

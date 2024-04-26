@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
-import { productsData } from '../../services/products';
 import ItemCard from './ItemCard';
 import { ProductService } from '../../services/ProductService';
 
@@ -24,7 +23,7 @@ const ItemsList = () => {
             try {
                 setError("");
                 const response = await ProductService.FetchProducts()
-                const sortedData = response.data.sort((a, b) => {
+                const sortedData = response.sort((a, b) => {
                     return a.name.localeCompare(b.name);
                 });
                 setItems(sortedData);

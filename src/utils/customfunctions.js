@@ -13,11 +13,11 @@ const imagesMap = {
 // Utility function to get the right image
 const resolveProductImage = (productName) => {
     // Normalize the product name to match the keys in your map
-    const normalizedProductName = productName.trim();
+    // const normalizedProductName = productName.trim();
     const defaultImage = "https://via.placeholder.com/150";  
 
     // Check if the image exists in your map, else return the default
-    return imagesMap[normalizedProductName] || defaultImage;
+    return imagesMap[productName] || defaultImage;
 };
 
 
